@@ -12,8 +12,13 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import AxiosInstance from "../AxiosInstance";
 import Paper from "@mui/material/Paper";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { log_in, insert_user } from "../redux/action";
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email address!").required("Required"),
     password: Yup.string().required("Password cannot be empty!"),
@@ -28,14 +33,21 @@ export default function Login() {
       AxiosInstance.post("/auth/token/obtain/", values).then((resp) => {
         localStorage.setItem("access_token", resp.data.access);
         localStorage.setItem("refresh_token", resp.data.refresh);
+        dispatch(log_in());
+        AxiosInstance("auth/user/").then((resp) => {
+          let userData = resp.data;
+          dispatch(insert_user(userData));
+          localStorage.setItem("user", JSON.stringify(userData));
+        });
       });
       setSubmitting(false);
+      history.push("/helps");
     },
     validationSchema: LoginSchema,
   });
   return (
-    <Container component="main" maxWidth="md" sx={{ marginTop: "5vh" }}>
-      <Paper sx={{ padding: "1vh 2vw" }}>
+    <Container component="main" maxWidth="sm" sx={{ marginTop: "15vh" }}>
+      <Paper sx={{ padding: "1vh 2vw", border: "5px solid #39aa57" }}>
         <Box
           sx={{
             marginTop: 8,
@@ -88,7 +100,7 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, color: "white" }}
               onClick={loginForm.handleSubmit}
               disabled={loginForm.isSubmitting || !loginForm.isValid}
             >

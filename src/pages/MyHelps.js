@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 import HelpCard from "../Components/HelpCard";
 import HelpFilter from "../Components/HelpFilter";
 import AxiosInstance from "../AxiosInstance";
-import CustomTablePagination from "../Components/CustomTablePagination";
+import CustomPagination from "../Components/CustomPagination";
 
 const HelpsList = () => {
   const [donations, setDonations] = React.useState([]);
@@ -28,7 +28,7 @@ const HelpsList = () => {
 
   useEffect(() => {
     AxiosInstance.get(
-      `/donation/donation/?search=${searchQuery}&category=${
+      `/donation/donation/?user=2&search=${searchQuery}&category=${
         categoryFilter || ""
       }&limit=1&offset=0`
     )
@@ -57,6 +57,15 @@ const HelpsList = () => {
               setCategoryFilter(query);
             }}
           />
+          <Box display="flex" justifyContent="flex-end">
+            <CustomPagination
+              dataCount={dataCount}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              handleChangePage={handleChangePage}
+              handleChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+          </Box>
         </Grid>
         <Grid container item xs={12} sm={12} md={8} spacing={2}>
           {donations.map((donation) => {
@@ -70,15 +79,6 @@ const HelpsList = () => {
             );
           })}
         </Grid>
-        <Box display="flex" justifyContent="flex-end">
-          <CustomTablePagination
-            dataCount={dataCount}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            handleChangePage={handleChangePage}
-            handleChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        </Box>
       </Grid>
     </Container>
   );

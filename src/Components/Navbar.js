@@ -11,12 +11,12 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-const Navbar = () => {
-  const authenticated = localStorage.getItem("access_token") ? true : false;
+const Navbar = ({ isAuthenticated }) => {
+  const authenticated = isAuthenticated;
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -36,14 +36,18 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ color: "#000" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              // color: "white",
+            }}
           >
             Sharing is Caring
           </Typography>
@@ -77,7 +81,9 @@ const Navbar = () => {
               }}
             >
               <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Helps</Typography>
+                <Typography textAlign="center">
+                  <NavLink to="/helps">Helps</NavLink>
+                </Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -85,18 +91,25 @@ const Navbar = () => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none" },
+              // color: "white",
+            }}
           >
             Sharing is Caring
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Link to="/">Helps</Link>
+            <Link to="/helps">Helps</Link>
           </Box>
           {authenticated ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar
+                    alt="Nischal Shrestha"
+                    src="/static/images/avatar/2.jpg"
+                  />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -120,6 +133,11 @@ const Navbar = () => {
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">
+                    <Link to="/my-helps">My Helps</Link>
+                  </Typography>
+                </MenuItem>
               </Menu>
             </Box>
           ) : (

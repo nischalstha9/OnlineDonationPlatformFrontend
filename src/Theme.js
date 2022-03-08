@@ -4,20 +4,17 @@ const Theme = createTheme({
   palette: {
     type: "light",
     primary: {
-      main: "#aeccb8",
+      main: "#39aa57",
     },
     secondary: {
       main: "#80c4a2",
     },
     background: {
-      default: "#fdf6f6",
-      paper: "",
+      default: "#f0f2f5",
+      paper: "#ffffff",
     },
   },
   props: {
-    MuiAppBar: {
-      color: "default",
-    },
     MuiList: {
       dense: true,
     },
@@ -26,6 +23,9 @@ const Theme = createTheme({
     },
     MuiTable: {
       size: "small",
+    },
+    MuiAppBar: {
+      color: "default",
     },
   },
 });

@@ -48,8 +48,8 @@ export default function SignUp() {
     validationSchema: SignupSchema,
   });
   return (
-    <Container component="main" maxWidth="xs" sx={{ marginTop: "5vh" }}>
-      <Paper sx={{ padding: "1vh 2vw" }}>
+    <Container component="main" maxWidth="sm" sx={{ marginTop: "10vh" }}>
+      <Paper sx={{ padding: "1vh 2vw", border: "5px solid #39aa57" }}>
         <Box
           sx={{
             marginTop: 8,
@@ -160,7 +160,7 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, color: "white" }}
               onClick={signUpForm.handleSubmit}
               disabled={signUpForm.isSubmitting || signUpForm.isValid}
             >

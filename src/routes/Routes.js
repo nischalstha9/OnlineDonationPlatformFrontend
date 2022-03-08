@@ -8,12 +8,14 @@ import { Container } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import PrivateRoute from "./PrivateRoute";
 import Logout from "../pages/Logout";
-import HelpsList from "../pages/HelpsList";
+import HelpsList from "../pages/HelpList";
+import MyHelps from "../pages/MyHelps";
+import CreateHelp from "../pages/CreateHelp";
 
-const Routes = () => {
+const Routes = ({ isAuthenticated }) => {
   return (
     <Router>
-      <Navbar />
+      <Navbar isAuthenticated={isAuthenticated} />
       <CssBaseline />
       <Container maxWidth="xl">
         <Switch>
@@ -21,6 +23,8 @@ const Routes = () => {
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={Login} />
           <Route path="/helps" component={HelpsList} />
+          <Route path="/create-help" component={CreateHelp} />
+          <PrivateRoute path="/my-helps" component={MyHelps} />
           <PrivateRoute path="/logout" component={Logout} />
         </Switch>
       </Container>
