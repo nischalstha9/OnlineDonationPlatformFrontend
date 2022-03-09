@@ -1,34 +1,97 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions } from "@mui/material";
+import { Button, CardActions } from "@mui/material";
+import CardHeader from "@mui/material/CardHeader";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import { green } from "@mui/material/colors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import { Grid } from "@mui/material";
 
-export default function HelpCard({ title, description }) {
+export default function HelpCard({ help }) {
+  const parseDate = (isoTime) => {
+    return new Date(Date.parse(isoTime)).toDateString();
+  };
   return (
-    <Card sx={{ maxWidth: 345, background: "white" }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image="https://www.researchgate.net/publication/343504533/figure/fig4/AS:962816924188675@1606564851537/The-forest-green-lizard-Calotes-calotes-is-large-among-the-lizard-species-measuring_Q640.jpg"
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
+    <Card
+      sx={{
+        background: "white",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex end",
+        justifyContent: "space-between",
+      }}
+    >
+      <CardMedia
+        component="img"
+        height="140"
+        image="https://www.researchgate.net/publication/343504533/figure/fig4/AS:962816924188675@1606564851537/The-forest-green-lizard-Calotes-calotes-is-large-among-the-lizard-species-measuring_Q640.jpg"
+        alt="green iguana"
+      />
+      <CardHeader
+        avatar={
+          <Avatar sx={{ bgcolor: green[500] }} aria-label="recipe"></Avatar>
+        }
+        title={help.title}
+        subheader={parseDate(help.created_at)}
+      />
+      <CardActions disableSpacing>
+        <Grid
+          container
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Grid>
+            <IconButton aria-label="add to favorites">
+              <FavoriteIcon />
+            </IconButton>
+            <IconButton aria-label="share">
+              <ShareIcon />
+            </IconButton>
+          </Grid>
+          <Grid>
+            <Button size="small" color="primary">
+              Read More
+            </Button>
+          </Grid>
+        </Grid>
       </CardActions>
     </Card>
+
+    // <Card
+    //   sx={{
+    //     background: "white",
+    //     height: "100%",
+    //     display: "flex",
+    //     flexDirection: "column",
+    //     alignItems: "flex end",
+    //     justifyContent: "space-between",
+    //   }}
+    // >
+    //   <CardActionArea>
+    //     <CardMedia
+    //       component="img"
+    //       height="140"
+    //       image="https://www.researchgate.net/publication/343504533/figure/fig4/AS:962816924188675@1606564851537/The-forest-green-lizard-Calotes-calotes-is-large-among-the-lizard-species-measuring_Q640.jpg"
+    //       alt="green iguana"
+    //     />
+    //     <CardContent>
+    //       <Typography gutterBottom variant="h5" component="div">
+    //         {parse(title)}
+    //       </Typography>
+    //     </CardContent>
+    //   </CardActionArea>
+    //   <CardActions sx={{}}>
+    //     <Button size="small" color="primary">
+    //       Share
+    //     </Button>
+    //   </CardActions>
+    // </Card>
   );
 }

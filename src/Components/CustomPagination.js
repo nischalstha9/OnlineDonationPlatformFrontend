@@ -19,7 +19,6 @@ const CustomPagination = ({
   rowsPerPage,
   page,
   handleChangePage,
-  handleChangeRowsPerPage,
 }) => {
   const classes = useStyles();
 

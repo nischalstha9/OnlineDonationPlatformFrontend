@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 const CustomAlert = ({
   message = "You can pass message, severity and openState!",
   severity = "success",
-  openState = false,
+  openState = true,
 }) => {
   const [alertOpen, setAlertOpen] = useState(openState);
 

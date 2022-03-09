@@ -77,7 +77,6 @@ export default function SignUp() {
                   autoFocus
                   onChange={signUpForm.handleChange}
                   value={signUpForm.values.first_name}
-                  required
                   error={
                     signUpForm.touched.first_name &&
                     Boolean(signUpForm.errors.first_name)
@@ -98,7 +97,6 @@ export default function SignUp() {
                   autoComplete="family-name"
                   onChange={signUpForm.handleChange}
                   value={signUpForm.values.last_name}
-                  required
                   error={
                     signUpForm.touched.last_name &&
                     Boolean(signUpForm.errors.last_name)
@@ -118,7 +116,6 @@ export default function SignUp() {
                   autoComplete="email"
                   onChange={signUpForm.handleChange}
                   value={signUpForm.values.email}
-                  required
                   error={
                     signUpForm.touched.email && Boolean(signUpForm.errors.email)
                   }
@@ -138,7 +135,6 @@ export default function SignUp() {
                   autoComplete="new-password"
                   onChange={signUpForm.handleChange}
                   value={signUpForm.values.password}
-                  required
                 />
               </Grid>
               <Grid item xs={12}>
@@ -152,7 +148,6 @@ export default function SignUp() {
                   autoComplete="confirm-password"
                   onChange={signUpForm.handleChange}
                   value={signUpForm.values.password2}
-                  required
                 />
               </Grid>
             </Grid>

@@ -4,30 +4,32 @@ import SignUp from "../pages/SignUp";
 import Login from "../pages/Login";
 import Navbar from "../Components/Navbar";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Container } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import PrivateRoute from "./PrivateRoute";
 import Logout from "../pages/Logout";
-import HelpsList from "../pages/HelpList";
+import HelpList from "../pages/HelpList";
+import HelpDetail from "../pages/HelpDetail";
 import MyHelps from "../pages/MyHelps";
 import CreateHelp from "../pages/CreateHelp";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Routes = ({ isAuthenticated }) => {
   return (
     <Router>
+      <ToastContainer autoClose={3000} />
       <Navbar isAuthenticated={isAuthenticated} />
       <CssBaseline />
-      <Container maxWidth="xl">
-        <Switch>
-          <Route path="/about" component={About} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/login" component={Login} />
-          <Route path="/helps" component={HelpsList} />
-          <Route path="/create-help" component={CreateHelp} />
-          <PrivateRoute path="/my-helps" component={MyHelps} />
-          <PrivateRoute path="/logout" component={Logout} />
-        </Switch>
-      </Container>
+      <Switch>
+        <Route path="/about" component={About} />
+        <Route path="/signup" component={SignUp} />
+        <Route path="/login" component={Login} />
+        <Route path="/helps" component={HelpList} />
+        <Route path="/help-detail" component={HelpDetail} />
+        <Route path="/create-help" component={CreateHelp} />
+        <PrivateRoute path="/my-helps" component={MyHelps} />
+        <PrivateRoute path="/logout" component={Logout} />
+      </Switch>
     </Router>
   );
 };

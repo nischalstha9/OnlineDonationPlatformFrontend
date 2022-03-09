@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -15,7 +15,8 @@ import Paper from "@mui/material/Paper";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { log_in, insert_user } from "../redux/action";
-import CustomAlert from "../Components/CustomAlert";
+import { toast } from "react-toastify";
+import { Helmet } from "react-helmet";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -24,7 +25,6 @@ export default function Login() {
     email: Yup.string().email("Invalid email address!").required("Required"),
     password: Yup.string().required("Password cannot be empty!"),
   });
-  const [message, setMessage] = useState(null);
 
   const loginForm = useFormik({
     initialValues: {
@@ -40,14 +40,23 @@ export default function Login() {
           AxiosInstance("auth/user/").then((resp) => {
             let userData = resp.data;
             dispatch(insert_user(userData));
+            toast.success(
+              `Welcome ${
+                userData.first_name.length > 0
+                  ? `${userData.first_name} ${userData.last_name}`
+                  : userData.email
+              }`,
+              {
+                position: toast.POSITION.BOTTOM_CENTER,
+              }
+            );
             localStorage.setItem("user", JSON.stringify(userData));
           });
           history.push("/helps");
         })
         .catch((err) => {
-          setMessage({
-            text: Object.values(err.response.data)[0][0],
-            severity: "error",
+          toast.error(Object.values(err.response.data)[0][0], {
+            position: toast.POSITION.BOTTOM_CENTER,
           });
         });
       setSubmitting(false);
@@ -56,6 +65,9 @@ export default function Login() {
   });
   return (
     <Container component="main" maxWidth="sm" sx={{ marginTop: "15vh" }}>
+      <Helmet>
+        <title>Sharing is Caring | Login</title>
+      </Helmet>
       <Paper sx={{ padding: "1vh 2vw", border: "5px solid #39aa57" }}>
         <Box
           sx={{
@@ -83,7 +95,6 @@ export default function Login() {
                   autoComplete="email"
                   onChange={loginForm.handleChange}
                   value={loginForm.values.email}
-                  required
                   error={
                     loginForm.touched.email && Boolean(loginForm.errors.email)
                   }
@@ -101,7 +112,6 @@ export default function Login() {
                   autoComplete="new-password"
                   onChange={loginForm.handleChange}
                   value={loginForm.values.password}
-                  required
                 />
               </Grid>
             </Grid>
@@ -115,15 +125,6 @@ export default function Login() {
             >
               Login
             </Button>
-            {message !== null ? (
-              <CustomAlert
-                message={message.text}
-                severity={message.severity}
-                openState={true}
-              />
-            ) : (
-              ""
-            )}
             <Grid container justifyContent="flex-end">
               <Grid item>
                 Need an account? <Link to="/signup">Sign Up</Link>

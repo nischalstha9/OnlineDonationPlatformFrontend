@@ -6,14 +6,22 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const UserMenu = [
+  { name: "Profile", to: "/profile" },
+  { name: "My Helps", to: "/my-helps" },
+  { name: "Logout", to: "/logout" },
+];
+
+const NavMenu = [
+  { name: "Helps", to: "/helps" },
+  { name: "Categories", to: "/categories" },
+];
 
 const Navbar = ({ isAuthenticated }) => {
   const authenticated = isAuthenticated;
@@ -36,121 +44,131 @@ const Navbar = ({ isAuthenticated }) => {
   };
 
   return (
-    <AppBar position="static" sx={{ color: "#000" }}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
+    <AppBar position="sticky" sx={{ color: "#fff", paddingX: "10px" }}>
+      <Toolbar disableGutters>
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          sx={{
+            mr: 2,
+            display: { xs: "none", md: "flex" },
+            // color: "white",
+          }}
+        >
+          Sharing is Caring
+        </Typography>
+        <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleOpenNavMenu}
+            color="inherit"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorElNav}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            open={Boolean(anchorElNav)}
+            onClose={handleCloseNavMenu}
             sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              // color: "white",
+              display: { xs: "block", md: "none" },
             }}
           >
-            Sharing is Caring
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
+            {NavMenu.map((menu) => {
+              return (
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                    <Button component={Link} to={menu.to} sx={{}}>
+                      {menu.name}
+                    </Button>
+                  </Typography>
+                </MenuItem>
+              );
+            })}
+          </Menu>
+        </Box>
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          sx={{
+            flexGrow: 1,
+            display: { xs: "flex", md: "none" },
+            // color: "white",
+          }}
+        >
+          Sharing is Caring
+        </Typography>
+        <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          {NavMenu.map((menu) => {
+            return (
+              <Button component={Link} to={menu.to} sx={{ color: "white" }}>
+                {menu.name}
+              </Button>
+            );
+          })}
+        </Box>
+        {authenticated ? (
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar
+                  alt="Nischal Shrestha"
+                  src="/static/images/avatar/2.jpg"
+                />
+              </IconButton>
+            </Tooltip>
             <Menu
+              sx={{ mt: "45px" }}
               id="menu-appbar"
-              anchorEl={anchorElNav}
+              anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
                 vertical: "top",
-                horizontal: "left",
+                horizontal: "right",
               }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
             >
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
-                  <NavLink to="/helps">Helps</NavLink>
-                </Typography>
-              </MenuItem>
+              {UserMenu.map((btn) => (
+                <MenuItem
+                  key={btn.name}
+                  onClick={handleCloseUserMenu}
+                  component={Link}
+                  to={btn.to}
+                >
+                  <Typography textAlign="center">{btn.name}</Typography>
+                </MenuItem>
+              ))}
             </Menu>
           </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{
-              flexGrow: 1,
-              display: { xs: "flex", md: "none" },
-              // color: "white",
-            }}
-          >
-            Sharing is Caring
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Link to="/helps">Helps</Link>
+        ) : (
+          <Box sx={{ flexGrow: 0 }}>
+            <Link to="/login">
+              <Button sx={{ ml: 4 }} variant="contained">
+                Login
+              </Button>
+            </Link>
           </Box>
-          {authenticated ? (
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar
-                    alt="Nischal Shrestha"
-                    src="/static/images/avatar/2.jpg"
-                  />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">
-                    <Link to="/my-helps">My Helps</Link>
-                  </Typography>
-                </MenuItem>
-              </Menu>
-            </Box>
-          ) : (
-            <Box sx={{ flexGrow: 0 }}>
-              <Link to="/login">
-                <Button sx={{ ml: 4 }} variant="contained">
-                  Login
-                </Button>
-              </Link>
-            </Box>
-          )}
-        </Toolbar>
-      </Container>
+        )}
+      </Toolbar>
     </AppBar>
   );
 };

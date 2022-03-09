@@ -1,17 +1,13 @@
 import * as React from "react";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions } from "@mui/material";
 import CategoriesDropdown from "../Components/CategoriesDropdown";
 import TextField from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
 
 export default function HelpFilter({ setSearchQuery, setCategoryFilter }) {
   const [sQuery, setSQuery] = React.useState("");
   function filter_by_search(e) {
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
       setSearchQuery(e.target.value);
     }
   }
@@ -19,7 +15,7 @@ export default function HelpFilter({ setSearchQuery, setCategoryFilter }) {
     <Grid
       sx={{
         background: "white",
-        padding: "1vw",
+        padding: "13px",
         display: "flex",
         flexDirection: "column",
         borderRadius: "10px",
@@ -31,9 +27,16 @@ export default function HelpFilter({ setSearchQuery, setCategoryFilter }) {
       sm={12}
       spacing={2}
     >
-      <Typography component="h1" variant="h5">
+      <Typography
+        variant="h6"
+        align="left"
+        sx={{
+          textAlign: "justify",
+          textJustify: "inter-word",
+          paddingBottom: "8px",
+        }}
+      >
         Filter Your Search
-        <hr />
       </Typography>
       <Grid
         container
