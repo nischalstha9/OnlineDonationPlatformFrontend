@@ -1,4 +1,4 @@
-import * as React from "react";
+import { React, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -15,6 +15,7 @@ import Paper from "@mui/material/Paper";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { log_in, insert_user } from "../redux/action";
+import CustomAlert from "../Components/CustomAlert";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ export default function Login() {
     email: Yup.string().email("Invalid email address!").required("Required"),
     password: Yup.string().required("Password cannot be empty!"),
   });
+  const [message, setMessage] = useState(null);
 
   const loginForm = useFormik({
     initialValues: {
@@ -30,18 +32,25 @@ export default function Login() {
       password: "",
     },
     onSubmit: (values, { setSubmitting }) => {
-      AxiosInstance.post("/auth/token/obtain/", values).then((resp) => {
-        localStorage.setItem("access_token", resp.data.access);
-        localStorage.setItem("refresh_token", resp.data.refresh);
-        dispatch(log_in());
-        AxiosInstance("auth/user/").then((resp) => {
-          let userData = resp.data;
-          dispatch(insert_user(userData));
-          localStorage.setItem("user", JSON.stringify(userData));
+      AxiosInstance.post("/auth/token/obtain/", values)
+        .then((resp) => {
+          localStorage.setItem("access_token", resp.data.access);
+          localStorage.setItem("refresh_token", resp.data.refresh);
+          dispatch(log_in());
+          AxiosInstance("auth/user/").then((resp) => {
+            let userData = resp.data;
+            dispatch(insert_user(userData));
+            localStorage.setItem("user", JSON.stringify(userData));
+          });
+          history.push("/helps");
+        })
+        .catch((err) => {
+          setMessage({
+            text: Object.values(err.response.data)[0][0],
+            severity: "error",
+          });
         });
-      });
       setSubmitting(false);
-      history.push("/helps");
     },
     validationSchema: LoginSchema,
   });
@@ -106,6 +115,15 @@ export default function Login() {
             >
               Login
             </Button>
+            {message !== null ? (
+              <CustomAlert
+                message={message.text}
+                severity={message.severity}
+                openState={true}
+              />
+            ) : (
+              ""
+            )}
             <Grid container justifyContent="flex-end">
               <Grid item>
                 Need an account? <Link to="/signup">Sign Up</Link>

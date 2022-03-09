@@ -1,23 +1,39 @@
 import React from "react";
 import * as Yup from "yup";
-import { Container, Grid, Typography, Paper, TextField } from "@mui/material";
-import { Formik, useFormik } from "formik";
+import {
+  Container,
+  Grid,
+  Typography,
+  Paper,
+  TextField,
+  Button,
+  Switch,
+  FormControlLabel,
+  InputLabel,
+} from "@mui/material";
+import { useFormik } from "formik";
 import CategoriesDropdown from "../Components/CategoriesDropdown";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import parse from "html-react-parser";
+import { FormControl } from "@mui/material";
+import { FormHelperText } from "@mui/material";
 
 const CreateHelp = () => {
   const DonationFormValidationSchema = Yup.object().shape({
-    first_name: Yup.string()
-      .min(2, "Too Short!")
-      .max(50, "Too Long!")
-      .required("Required"),
-    last_name: Yup.string()
-      .min(2, "Too Short!")
-      .max(50, "Too Long!")
-      .required("Required"),
-    email: Yup.string()
-      .email("Invalid email address!")
-      .required("Email is required!"),
-    password: Yup.string().required("Password cannot be empty!"),
+    title: Yup.string()
+      .min(6, "Too Short!")
+      .max(70, "Too Long!")
+      .required("Title for your help is needed!"),
+    description: Yup.string()
+      .min(20, "Too Short!")
+      .required("Short description is required."),
+    location: Yup.string()
+      .min(6, "Too Short!")
+      .required("Please give pickup location for your help."),
+    contact: Yup.number()
+      .min(8, "Too Short!")
+      .required("Please give a contact number to make your help reachable."),
     password2: Yup.string()
       .required("Enter Your Password Again!")
       .test("matchPassword", "Both passwords must match!", (value) => {
@@ -50,6 +66,20 @@ const CreateHelp = () => {
           <Paper sx={{ padding: "10px" }}>
             <Typography variant="h5" component="h5">
               Donation Form Will Render Here
+            </Typography>
+            <Typography variant="h6" component="h5">
+              <hr />
+              {parse(createDonationForm.values.title)}
+            </Typography>
+            <Typography variant="p" component="p">
+              Category: {parse(createDonationForm.values.category)}
+            </Typography>
+            <Typography variant="p" component="p">
+              Description: {parse(createDonationForm.values.description)}
+              location: {parse(createDonationForm.values.location)}
+              contact: {parse(createDonationForm.values.contact)}
+              active:{" "}
+              {parse(createDonationForm.values.active == true ? "tru" : "fal")}
             </Typography>
           </Paper>
         </Grid>
@@ -117,6 +147,25 @@ const CreateHelp = () => {
             />
           </Grid>
           <Grid item>
+            <FormControl>
+              <CKEditor
+                editor={ClassicEditor}
+                data=""
+                name="description"
+                onChange={(event, editor) => {
+                  createDonationForm.setFieldValue(
+                    "description",
+                    editor.getData()
+                  );
+                }}
+              />
+              <FormHelperText id="my-helper-text" sx={{ color: "#d32f2f" }}>
+                {createDonationForm.touched.description &&
+                  createDonationForm.errors.description}
+              </FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item>
             <TextField
               autoComplete=""
               name="contact"
@@ -137,6 +186,28 @@ const CreateHelp = () => {
                 createDonationForm.errors.contact
               }
             />
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={createDonationForm.active}
+                  onChange={(e) => {
+                    createDonationForm.setFieldValue("active", e.target.value);
+                  }}
+                />
+              }
+              label="Active"
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              sx={{ color: "white" }}
+              onClick={createDonationForm.handleSubmit}
+            >
+              Create Help
+            </Button>
           </Grid>
         </Grid>
       </Grid>
