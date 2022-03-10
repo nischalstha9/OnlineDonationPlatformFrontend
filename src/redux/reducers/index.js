@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import categoryReducer from "./categoryReducer";
 import isAuthenticatedReducer from "./isAuthenticated";
 // import accessTokenReducer from "./accessToken";
 import userInfoReducer from "./userInfo";
@@ -10,6 +11,7 @@ const allReducers = combineReducers({
   // role: roleReducer,
   // token: accessTokenReducer,
   user: userInfoReducer,
+  categories: categoryReducer,
   // alerts: alertsReducer,
 });
 

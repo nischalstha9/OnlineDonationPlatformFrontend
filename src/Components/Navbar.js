@@ -161,11 +161,14 @@ const Navbar = ({ isAuthenticated }) => {
           </Box>
         ) : (
           <Box sx={{ flexGrow: 0 }}>
-            <Link to="/login">
-              <Button sx={{ ml: 4 }} variant="contained">
-                Login
-              </Button>
-            </Link>
+            <Button
+              sx={{ ml: 4 }}
+              variant="contained"
+              component={Link}
+              to="/login"
+            >
+              Login
+            </Button>
           </Box>
         )}
       </Toolbar>

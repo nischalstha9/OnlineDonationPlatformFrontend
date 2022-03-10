@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import AxiosInstance from "../AxiosInstance";
+import { useSelector } from "react-redux";
 
 export default function CategoriesDropdown({ setCategoryFilter }) {
   const [category, setCategory] = React.useState("");
-  const [categories, setCategories] = React.useState([]);
+  const categories = useSelector((state) => state.categories);
   function filter_by_category(query) {
     setCategory(query);
     setCategoryFilter(query);
@@ -17,16 +17,6 @@ export default function CategoriesDropdown({ setCategoryFilter }) {
   const handleChange = (event) => {
     filter_by_category(event.target.value);
   };
-
-  useEffect(() => {
-    AxiosInstance.get("/donation/category/")
-      .then((resp) => {
-        setCategories(resp.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   return (
     <Box>

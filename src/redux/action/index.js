@@ -5,6 +5,7 @@ import {
   INSERT_USER,
   INSERT_ALERT,
   REMOVE_ALERT,
+  SET_CATEGORY,
 } from "../constants";
 export const log_in = () => {
   return {
@@ -25,23 +26,29 @@ export const insert_token = (token) => {
   };
 };
 
-export const insert_user = (token) => {
+export const insert_user = (user) => {
   return {
     type: INSERT_USER,
-    payload: token,
+    payload: user,
   };
 };
 
-export const insert_alert = (token) => {
+export const insert_alert = (alert) => {
   return {
     type: INSERT_ALERT,
-    payload: token,
+    payload: alert,
   };
 };
 
-export const remove_alert = (token) => {
+export const remove_alert = () => {
   return {
     type: REMOVE_ALERT,
-    payload: token,
+  };
+};
+
+export const set_category = (categories) => {
+  return {
+    type: SET_CATEGORY,
+    payload: categories,
   };
 };

@@ -13,11 +13,13 @@ import MyHelps from "../pages/MyHelps";
 import CreateHelp from "../pages/CreateHelp";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Categories from "../Components/Categories";
 
 const Routes = ({ isAuthenticated }) => {
   return (
     <Router>
       <ToastContainer autoClose={3000} />
+      <Categories />
       <Navbar isAuthenticated={isAuthenticated} />
       <CssBaseline />
       <Switch>
@@ -25,7 +27,7 @@ const Routes = ({ isAuthenticated }) => {
         <Route path="/signup" component={SignUp} />
         <Route path="/login" component={Login} />
         <Route path="/helps" component={HelpList} />
-        <Route path="/help-detail" component={HelpDetail} />
+        <Route path="/help-detail/:help_slug" component={HelpDetail} />
         <Route path="/create-help" component={CreateHelp} />
         <PrivateRoute path="/my-helps" component={MyHelps} />
         <PrivateRoute path="/logout" component={Logout} />

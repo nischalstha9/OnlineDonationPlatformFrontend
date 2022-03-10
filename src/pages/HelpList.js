@@ -13,10 +13,9 @@ const HelpsList = () => {
   const [donations, setDonations] = React.useState([]);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [categoryFilter, setCategoryFilter] = React.useState(null);
-
   const [page, setPage] = React.useState(0);
   const [dataCount, setDataCount] = React.useState(0);
-  const [limit] = React.useState(1);
+  const limit = 6;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -26,7 +25,7 @@ const HelpsList = () => {
     AxiosInstance.get(
       `/donation/donation/?search=${searchQuery}&category=${
         categoryFilter || ""
-      }&limit=${limit}&offset=${page * limit}`
+      }&limit=${limit}&offset=${page * limit}&ordering=-created_at`
     )
       .then((resp) => {
         setDonations(resp.data.results);
@@ -38,8 +37,8 @@ const HelpsList = () => {
   }, [searchQuery, categoryFilter, page, limit]);
 
   return (
-    <Container component="main" sx={{ marginBottom: "25vh", marginTop: "4vh" }}>
-      <Typography variant="h4" sx={{ marginBottom: "2vh" }}>
+    <Container sx={{ marginBottom: "25vh", marginTop: "4vh" }}>
+      <Typography variant="h3" sx={{ marginBottom: "2vh" }} align="right">
         Helps Available
       </Typography>
       <Divider />
@@ -73,7 +72,7 @@ const HelpsList = () => {
         >
           {donations.map((donation) => {
             return (
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid item xs={12} sm={6} md={4} key={donation.id}>
                 <HelpCard help={donation} />
               </Grid>
             );

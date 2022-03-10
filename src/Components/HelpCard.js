@@ -4,16 +4,13 @@ import CardMedia from "@mui/material/CardMedia";
 import { Button, CardActions } from "@mui/material";
 import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
 import { green } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
 import { Grid } from "@mui/material";
+import { Link } from "react-router-dom";
+import { parseDate } from "./Utils";
+import DonationLikeShareAction from "./DonationLikeShareAction";
 
 export default function HelpCard({ help }) {
-  const parseDate = (isoTime) => {
-    return new Date(Date.parse(isoTime)).toDateString();
-  };
   return (
     <Card
       sx={{
@@ -47,51 +44,19 @@ export default function HelpCard({ help }) {
             alignItems: "center",
           }}
         >
+          <DonationLikeShareAction help={help} />
           <Grid>
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton>
-          </Grid>
-          <Grid>
-            <Button size="small" color="primary">
+            <Button
+              size="small"
+              color="primary"
+              component={Link}
+              to={`/help-detail/${help.slug}`}
+            >
               Read More
             </Button>
           </Grid>
         </Grid>
       </CardActions>
     </Card>
-
-    // <Card
-    //   sx={{
-    //     background: "white",
-    //     height: "100%",
-    //     display: "flex",
-    //     flexDirection: "column",
-    //     alignItems: "flex end",
-    //     justifyContent: "space-between",
-    //   }}
-    // >
-    //   <CardActionArea>
-    //     <CardMedia
-    //       component="img"
-    //       height="140"
-    //       image="https://www.researchgate.net/publication/343504533/figure/fig4/AS:962816924188675@1606564851537/The-forest-green-lizard-Calotes-calotes-is-large-among-the-lizard-species-measuring_Q640.jpg"
-    //       alt="green iguana"
-    //     />
-    //     <CardContent>
-    //       <Typography gutterBottom variant="h5" component="div">
-    //         {parse(title)}
-    //       </Typography>
-    //     </CardContent>
-    //   </CardActionArea>
-    //   <CardActions sx={{}}>
-    //     <Button size="small" color="primary">
-    //       Share
-    //     </Button>
-    //   </CardActions>
-    // </Card>
   );
 }
