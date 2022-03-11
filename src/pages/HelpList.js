@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import LinearProgress from "@mui/material/LinearProgress";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import HelpCard from "../Components/HelpCard";
@@ -16,12 +17,14 @@ const HelpsList = () => {
   const [page, setPage] = React.useState(0);
   const [dataCount, setDataCount] = React.useState(0);
   const limit = 8;
+  const [loading, setLoading] = useState(true);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   useEffect(() => {
+    setLoading(true);
     AxiosInstance.get(
       `/donation/donation/?search=${searchQuery}&category=${
         categoryFilter || ""
@@ -34,6 +37,7 @@ const HelpsList = () => {
       .catch((err) => {
         console.log(err);
       });
+    setLoading(false);
   }, [searchQuery, categoryFilter, page, limit]);
 
   return (
@@ -72,13 +76,19 @@ const HelpsList = () => {
           spacing={2}
           sx={{ marginY: 1 }}
         >
-          {donations.map((donation) => {
-            return (
-              <Grid item xs={12} sm={4} md={3} key={donation.id}>
-                <HelpCard help={donation} />
-              </Grid>
-            );
-          })}
+          {loading ? (
+            <Container component="main" sx={{ padding: "0", marginY: 10 }}>
+              <LinearProgress />
+            </Container>
+          ) : (
+            donations.map((donation) => {
+              return (
+                <Grid item xs={12} sm={4} md={4} lg={3} key={donation.id}>
+                  <HelpCard help={donation} />
+                </Grid>
+              );
+            })
+          )}
         </Grid>
       </Grid>
     </Container>

@@ -15,6 +15,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Categories from "../Components/Categories";
 import ActivateAccount from "../pages/ActivateAccount";
+import ForgetPassword from "../pages/ForgetPassword";
+import SetNewPassword from "../pages/SetNewPassword";
 
 const Routes = ({ isAuthenticated }) => {
   return (
@@ -31,6 +33,8 @@ const Routes = ({ isAuthenticated }) => {
         <Route path="/activate" component={ActivateAccount} />
         <Route path="/help-detail/:help_slug" component={HelpDetail} />
         <Route path="/create-help" component={CreateHelp} />
+        <Route path="/forget-password" component={ForgetPassword} />
+        <Route path="/forget" component={SetNewPassword} />
         <PrivateRoute path="/my-helps" component={MyHelps} />
         <PrivateRoute path="/logout" component={Logout} />
       </Switch>
