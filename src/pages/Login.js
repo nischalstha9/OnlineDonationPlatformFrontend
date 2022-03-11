@@ -35,8 +35,6 @@ export default function Login() {
       AxiosInstance.post("/auth/token/obtain/", values)
         .then((resp) => {
           localStorage.setItem("access_token", resp.data.access);
-          localStorage.setItem("refresh_token", resp.data.refresh);
-          dispatch(log_in());
           AxiosInstance("auth/user/").then((resp) => {
             let userData = resp.data;
             dispatch(insert_user(userData));
@@ -51,6 +49,7 @@ export default function Login() {
               }
             );
             localStorage.setItem("user", JSON.stringify(userData));
+            dispatch(log_in());
           });
           history.push("/helps");
         })

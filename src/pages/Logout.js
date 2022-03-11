@@ -6,6 +6,9 @@ import AxiosInstance from "../AxiosInstance";
 import { Button } from "@mui/material";
 import { log_out, insert_user } from "../redux/action";
 import { useDispatch } from "react-redux";
+import { Helmet } from "react-helmet";
+import Paper from "@mui/material/Paper";
+import { toast } from "react-toastify";
 
 const Logout = () => {
   const dispatch = useDispatch();
@@ -15,37 +18,53 @@ const Logout = () => {
       .catch((err) => {})
       .finally(() => {
         localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
         localStorage.removeItem("user");
         dispatch(insert_user({}));
         dispatch(log_out());
+        toast.error("You have been logged out!", {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
       });
   };
   return (
-    <Container component="main" maxWidth="md" sx={{ marginTop: "5vh" }}>
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Typography component="h1" variant="h5">
-          Are you sure to logout?
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Button variant="contained" color="error" onClick={removeToken}>
-          Logout?
-        </Button>
-      </Box>
+    <Container component="main" maxWidth="sm" sx={{ marginTop: "15vh" }}>
+      <Helmet>
+        <title>Sharing is Caring | Login</title>
+      </Helmet>
+      <Paper sx={{ padding: "1vh 2vw", border: "5px solid #39aa57" }}>
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h4">Logout</Typography>
+          <Box component="form" noValidate sx={{ mt: 3 }}>
+            <Typography variant="h5">Are you sure to logout?</Typography>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Button
+            fullWidth
+            variant="outlined"
+            size="lg"
+            color="error"
+            onClick={removeToken}
+          >
+            Logout?
+          </Button>
+        </Box>
+      </Paper>
     </Container>
   );
 };

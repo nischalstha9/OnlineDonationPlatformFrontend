@@ -13,6 +13,7 @@ import {
   ListItemAvatar,
   ListItemText,
   LinearProgress,
+  Button,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
@@ -20,12 +21,14 @@ import AxiosInstance from "../AxiosInstance";
 import parse from "html-react-parser";
 import { parseDate } from "../Components/Utils";
 import DonationLikeShareAction from "../Components/DonationLikeShareAction";
+import { Helmet } from "react-helmet";
 
 const HelpDetail = () => {
   const categories = useSelector((state) => state.categories);
   const [help, setHelp] = useState({});
   const [loading, setLoading] = useState(true);
   const { help_slug } = useParams();
+  const user = useSelector((state) => state.user);
   useEffect(() => {
     AxiosInstance.get(`donation/donation/${help_slug}`).then((resp) => {
       setHelp(resp.data);
@@ -38,12 +41,15 @@ const HelpDetail = () => {
     </Container>
   ) : (
     <>
+      <Helmet>
+        <title>{help.title} | Sharing is Caring</title>
+      </Helmet>
       <CardMedia
         component="img"
         sx={{ width: "100%", margin: 0, p: 0, height: "500px" }}
         image="https://images.unsplash.com/photo-1640622658353-c6cecbe91488?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
       />
-      <Paper sx={{ padding: "10px" }}>
+      <Paper sx={{ padding: "10px", minHeight: "100vh" }}>
         <Container component="main" sx={{ padding: "0" }}>
           <Typography
             component="h1"
@@ -53,16 +59,18 @@ const HelpDetail = () => {
           >
             {help.title}
           </Typography>
-          <Typography variant="subtitle1" align="right">
-            -{" "}
-            {help.doner.name.trim().length > 0
-              ? help.doner.name
-              : help.doner.email}
+          {help.doner.id === user.id ? (
+            <Typography variant="subtitle2" align="right">
+              <Button size="large" component={Link} to="/">
+                Edit
+              </Button>
+            </Typography>
+          ) : (
+            ""
+          )}
+          <Typography align="left">
+            <DonationLikeShareAction help={help} />
           </Typography>
-          <Typography variant="subtitle2" align="right">
-            - {parseDate(help.created_at)}
-          </Typography>
-          <DonationLikeShareAction help={help} />
           <Grid container spacing={3}>
             <Grid item xs={12} sm={12} md={8} lg={8}>
               <Typography
@@ -73,7 +81,21 @@ const HelpDetail = () => {
                 {parse(help.description)}
               </Typography>
             </Grid>
-            <Grid item sm={12} md={4} lg={4}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
+              <Grid item xs={12} sm={12} md={12}>
+                <Typography variant="subtitle1" align="right">
+                  -{" "}
+                  {help.doner.first_name.length > 0
+                    ? `${help.doner.first_name} ${help.doner.last_name}`
+                    : help.doner.email}
+                </Typography>
+                <Typography variant="subtitle2" align="right">
+                  - {parseDate(help.created_at)}
+                </Typography>
+                <Typography variant="subtitle2" align="right">
+                  - {help.contact}
+                </Typography>
+              </Grid>
               <Grid item xs={12} md={12}>
                 <HelpFilter
                   setSearchQuery={(query) => {}}
@@ -108,7 +130,7 @@ const HelpDetail = () => {
                 </List>
               </Grid>
               <Divider />
-              <Grid>
+              <Grid item xs={12} md={12} lg={12}>
                 <Typography
                   variant="h6"
                   align="left"
@@ -118,7 +140,7 @@ const HelpDetail = () => {
                 </Typography>
                 <List
                   sx={{
-                    width: "100%",
+                    // width: "100%",
                     maxWidth: 360,
                     bgcolor: "background.paper",
                   }}

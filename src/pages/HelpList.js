@@ -15,7 +15,7 @@ const HelpsList = () => {
   const [categoryFilter, setCategoryFilter] = React.useState(null);
   const [page, setPage] = React.useState(0);
   const [dataCount, setDataCount] = React.useState(0);
-  const limit = 6;
+  const limit = 8;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -37,13 +37,15 @@ const HelpsList = () => {
   }, [searchQuery, categoryFilter, page, limit]);
 
   return (
-    <Container sx={{ marginBottom: "25vh", marginTop: "4vh" }}>
+    <Container
+      sx={{ marginBottom: "25vh", marginTop: "4vh", minWidth: "90vw" }}
+    >
       <Typography variant="h3" sx={{ marginBottom: "2vh" }} align="right">
         Helps Available
       </Typography>
       <Divider />
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={12} md={4} sx={{ marginY: 1 }}>
+        <Grid item xs={12} sm={12} md={3} sx={{ marginY: 1 }}>
           <HelpFilter
             setSearchQuery={(query) => {
               setSearchQuery(query);
@@ -66,13 +68,13 @@ const HelpsList = () => {
           item
           xs={12}
           sm={12}
-          md={8}
+          md={9}
           spacing={2}
           sx={{ marginY: 1 }}
         >
           {donations.map((donation) => {
             return (
-              <Grid item xs={12} sm={6} md={4} key={donation.id}>
+              <Grid item xs={12} sm={4} md={3} key={donation.id}>
                 <HelpCard help={donation} />
               </Grid>
             );

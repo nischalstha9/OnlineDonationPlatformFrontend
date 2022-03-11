@@ -4,7 +4,7 @@ const baseURL = "http://127.0.0.1:8000/api/v1/";
 // const baseURL = "https://aakogako.herokuapp.com/api/v1/";
 const AxiosInstance = axios.create({
   baseURL: baseURL,
-  timeout: 5000,
+  timeout: 10000,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -38,6 +38,9 @@ AxiosInstance.interceptors.response.use(
     const originalRequest = error.config;
 
     if (error.response.status === 401 && originalRequest.url === refreshPath) {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("user");
       alert("Session Expired! Please Login Again!");
       window.location.pathname = "/logout";
       return Promise.reject(error);

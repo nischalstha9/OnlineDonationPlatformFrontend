@@ -14,6 +14,7 @@ import CreateHelp from "../pages/CreateHelp";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Categories from "../Components/Categories";
+import ActivateAccount from "../pages/ActivateAccount";
 
 const Routes = ({ isAuthenticated }) => {
   return (
@@ -27,6 +28,7 @@ const Routes = ({ isAuthenticated }) => {
         <Route path="/signup" component={SignUp} />
         <Route path="/login" component={Login} />
         <Route path="/helps" component={HelpList} />
+        <Route path="/activate" component={ActivateAccount} />
         <Route path="/help-detail/:help_slug" component={HelpDetail} />
         <Route path="/create-help" component={CreateHelp} />
         <PrivateRoute path="/my-helps" component={MyHelps} />

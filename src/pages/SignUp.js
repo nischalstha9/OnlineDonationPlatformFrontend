@@ -11,8 +11,12 @@ import Container from "@mui/material/Container";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import Paper from "@mui/material/Paper";
+import AxiosInstance from "../AxiosInstance";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 export default function SignUp() {
+  const history = useHistory();
   const SignupSchema = Yup.object().shape({
     first_name: Yup.string()
       .min(2, "Too Short!")
@@ -25,11 +29,13 @@ export default function SignUp() {
     email: Yup.string()
       .email("Invalid email address!")
       .required("Email is required!"),
-    password: Yup.string().required("Password cannot be empty!"),
+    password: Yup.string()
+      .min(8, "Your password length must be atleast 8 and alphanumeric.")
+      .required("Password cannot be empty!"),
     password2: Yup.string()
       .required("Enter Your Password Again!")
       .test("matchPassword", "Both passwords must match!", (value) => {
-        return value === signUpForm.values.password2;
+        return value === signUpForm.values.password;
       }),
   });
 
@@ -42,7 +48,27 @@ export default function SignUp() {
       password2: "",
     },
     onSubmit: (values, { isSubmitting }) => {
-      alert(JSON.stringify(values, null, 2));
+      AxiosInstance.post("auth/user/", values)
+        .then((resp) => {
+          toast.success(
+            `Please verify your account with link sent to ${values.email} and Login.`,
+            {
+              position: toast.POSITION.BOTTOM_CENTER,
+              autoClose: false,
+            }
+          );
+          signUpForm.resetForm();
+          history.push("/login");
+        })
+        .catch((err) => {
+          signUpForm.setErrors(err.response.data);
+          if (err.response.data.error) {
+            toast.error(err.response.data.error[0], {
+              position: toast.POSITION.BOTTOM_CENTER,
+              autoClose: false,
+            });
+          }
+        });
       isSubmitting(false);
     },
     validationSchema: SignupSchema,
@@ -135,6 +161,13 @@ export default function SignUp() {
                   autoComplete="new-password"
                   onChange={signUpForm.handleChange}
                   value={signUpForm.values.password}
+                  error={
+                    signUpForm.touched.password &&
+                    Boolean(signUpForm.errors.password)
+                  }
+                  helperText={
+                    signUpForm.touched.password && signUpForm.errors.password
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
@@ -148,6 +181,13 @@ export default function SignUp() {
                   autoComplete="confirm-password"
                   onChange={signUpForm.handleChange}
                   value={signUpForm.values.password2}
+                  error={
+                    signUpForm.touched.password2 &&
+                    Boolean(signUpForm.errors.password2)
+                  }
+                  helperText={
+                    signUpForm.touched.password2 && signUpForm.errors.password2
+                  }
                 />
               </Grid>
             </Grid>
@@ -157,7 +197,6 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2, color: "white" }}
               onClick={signUpForm.handleSubmit}
-              disabled={signUpForm.isSubmitting || signUpForm.isValid}
             >
               Sign Up
             </Button>

@@ -11,9 +11,11 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const UserMenu = [
   { name: "Profile", to: "/profile" },
+  { name: "Create New Help", to: "/create-help" },
   { name: "My Helps", to: "/my-helps" },
   { name: "Logout", to: "/logout" },
 ];
@@ -25,6 +27,7 @@ const NavMenu = [
 
 const Navbar = ({ isAuthenticated }) => {
   const authenticated = isAuthenticated;
+  const user = useSelector((state) => state.user);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -89,12 +92,12 @@ const Navbar = ({ isAuthenticated }) => {
           >
             {NavMenu.map((menu) => {
               return (
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                    <Button component={Link} to={menu.to} sx={{}}>
-                      {menu.name}
-                    </Button>
-                  </Typography>
+                <MenuItem
+                  onClick={handleCloseNavMenu}
+                  component={Link}
+                  to={menu.to}
+                >
+                  <Typography textAlign="center">{menu.name}</Typography>
                 </MenuItem>
               );
             })}
@@ -125,10 +128,7 @@ const Navbar = ({ isAuthenticated }) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar
-                  alt="Nischal Shrestha"
-                  src="/static/images/avatar/2.jpg"
-                />
+                <Avatar alt={user.email} src={user.avatar_path} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -162,10 +162,12 @@ const Navbar = ({ isAuthenticated }) => {
         ) : (
           <Box sx={{ flexGrow: 0 }}>
             <Button
-              sx={{ ml: 4 }}
+              sx={{ ml: 4, color: "white" }}
               variant="contained"
+              color="secondary"
               component={Link}
               to="/login"
+              variant="outlined"
             >
               Login
             </Button>

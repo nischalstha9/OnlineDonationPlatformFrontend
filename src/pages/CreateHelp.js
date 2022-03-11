@@ -22,9 +22,12 @@ import AxiosInstance from "../AxiosInstance";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet";
 import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
+import RenderTemplate from "../Components/RenderTemplate";
 
 const CreateHelp = () => {
   const history = useHistory();
+  const user = useSelector((state) => state.user);
   const DonationFormValidationSchema = Yup.object().shape({
     title: Yup.string()
       .min(6, "Too Short!")
@@ -74,17 +77,25 @@ const CreateHelp = () => {
     validationSchema: DonationFormValidationSchema,
   });
   return (
-    <Container>
-      <Paper sx={{ minHeight: "110vh", padding: "8px" }}>
-        <Helmet>
-          <title>Sharing is Caring | Create New Help</title>
-        </Helmet>
+    <Container sx={{ minWidth: "90vw" }}>
+      <Helmet>
+        <title>Sharing is Caring | Create New Help</title>
+      </Helmet>
+      <Paper sx={{ minHeight: "110vh", padding: "8px" }} fullWidth>
         <Typography variant="h4" component="h4">
           Enter Donation Details
         </Typography>
         <Divider />
-        <Grid container spacing={2}>
-          <Grid item xl={6} sx={{ marginTop: "10px", padding: "15px" }}>
+        <Grid container item spacing={2}>
+          <Grid
+            item
+            sm={12}
+            md={6}
+            lg={6}
+            xl={6}
+            sx={{ marginTop: "10px", padding: "15px" }}
+          >
+            <RenderTemplate />
             <Typography variant="h6">
               {parse(createDonationForm.values.title)}
             </Typography>

@@ -1,21 +1,27 @@
-import * as React from "react";
+import React from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import { Button, CardActions } from "@mui/material";
+import { CardActions } from "@mui/material";
 import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 import { green } from "@mui/material/colors";
-import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
-import { parseDate } from "./Utils";
-import DonationLikeShareAction from "./DonationLikeShareAction";
+import DonationLikeShareAction from "../Components/DonationLikeShareAction";
 
-export default function HelpCard({ help, newState = false }) {
+const RenderTemplate = ({
+  title,
+  avatar_path,
+  description,
+  date,
+  contact,
+  location,
+}) => {
   return (
     <Card
       sx={{
         background: "white",
-        height: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "flex end",
@@ -32,13 +38,11 @@ export default function HelpCard({ help, newState = false }) {
           <Avatar
             sx={{ bgcolor: green[500] }}
             aria-label="recipe"
-            src={help.doner.avatar_path}
+            src={avatar_path}
           ></Avatar>
         }
-        title={help.title}
-        subheader={
-          newState ? new Date().toDateString() : parseDate(help.created_at)
-        }
+        title={title}
+        subheader={new Date().toDateString()}
       />
       <CardActions disableSpacing>
         <Grid
@@ -49,14 +53,9 @@ export default function HelpCard({ help, newState = false }) {
             alignItems: "center",
           }}
         >
-          <DonationLikeShareAction help={help} newState={newState} />
+          <DonationLikeShareAction help={{}} newState={true} />
           <Grid>
-            <Button
-              size="small"
-              color="primary"
-              component={Link}
-              to={`/help-detail/${help.slug}`}
-            >
+            <Button size="small" color="primary" component={Link} to={`#`}>
               Read More
             </Button>
           </Grid>
@@ -64,4 +63,6 @@ export default function HelpCard({ help, newState = false }) {
       </CardActions>
     </Card>
   );
-}
+};
+
+export default RenderTemplate;
