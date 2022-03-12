@@ -6,6 +6,7 @@ import {
   INSERT_ALERT,
   REMOVE_ALERT,
   SET_CATEGORY,
+  SET_HOME_META,
 } from "../constants";
 export const log_in = () => {
   return {
@@ -50,5 +51,12 @@ export const set_category = (categories) => {
   return {
     type: SET_CATEGORY,
     payload: categories,
+  };
+};
+
+export const set_home_meta = (meta) => {
+  return {
+    type: SET_HOME_META,
+    payload: meta,
   };
 };

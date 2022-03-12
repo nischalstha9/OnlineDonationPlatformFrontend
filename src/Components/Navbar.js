@@ -12,11 +12,12 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import ProfileCard from "./ProfileCard";
 
 const UserMenu = [
-  { name: "Profile", to: "/profile" },
   { name: "Create New Help", to: "/create-help" },
   { name: "My Helps", to: "/my-helps" },
+  { name: "Favorite Helps", to: "/my-liked-helps" },
   { name: "Logout", to: "/logout" },
 ];
 
@@ -93,6 +94,7 @@ const Navbar = ({ isAuthenticated }) => {
             {NavMenu.map((menu) => {
               return (
                 <MenuItem
+                  key={menu.name}
                   onClick={handleCloseNavMenu}
                   component={Link}
                   to={menu.to}
@@ -126,7 +128,7 @@ const Navbar = ({ isAuthenticated }) => {
         </Box>
         {authenticated ? (
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="User Actions">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt={user.email} src={user.avatar_path} />
               </IconButton>
@@ -147,6 +149,13 @@ const Navbar = ({ isAuthenticated }) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+              <MenuItem
+                onClick={handleCloseUserMenu}
+                component={Link}
+                to={"/profile"}
+              >
+                <ProfileCard user={user} />
+              </MenuItem>
               {UserMenu.map((btn) => (
                 <MenuItem
                   key={btn.name}

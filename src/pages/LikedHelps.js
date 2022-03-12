@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
 import Container from "@mui/material/Container";
@@ -14,7 +15,6 @@ import {
   HELP_PAGINATION_ITEM_LIMIT,
 } from "../redux/constants";
 import { Helmet } from "react-helmet";
-import MostLikedHelps from "../Components/MostLikedHelps";
 
 const HelpsList = () => {
   const [donations, setDonations] = React.useState([]);
@@ -32,24 +32,24 @@ const HelpsList = () => {
   useEffect(() => {
     setLoading(true);
     AxiosInstance.get(
-      `/donation/donation/?search=${searchQuery}&category=${
+      `/donation/liked-donations/?search=${searchQuery}&category=${
         categoryFilter || ""
-      }&limit=${limit}&offset=${page * limit}&ordering=-updated_at`
+      }&limit=${limit}&offset=${page * limit}&ordering=-created_at`
     )
       .then((resp) => {
         setDonations(resp.data.results);
         setDataCount(resp.data.count);
-        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
+    setLoading(false);
   }, [searchQuery, categoryFilter, limit, page]);
 
   return (
     <>
       <Helmet>
-        <title>Helps Available</title>
+        <title>Helps Liked</title>
       </Helmet>
       <Container
         sx={{ marginBottom: "25vh", marginTop: "4vh", minWidth: "90vw" }}
@@ -57,57 +57,39 @@ const HelpsList = () => {
         <Typography variant="h3" sx={{ marginBottom: "2vh" }} align="right">
           {searchQuery !== ""
             ? `Search Results for "${searchQuery}"`
-            : "Helps Available"}
+            : "Helps Liked"}
         </Typography>
         <Divider />
         <Grid container spacing={2}>
-          <Grid
-            container
-            item
-            xs={12}
-            sm={12}
-            md={3}
-            lg={3}
-            sx={{
-              marginY: 1,
-              display: "flex",
-              alignContent: "flex-start",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              alignItems: "center",
-            }}
-          >
-            <Grid item xs={12} sm={12} md={12} lg={12} sx={{ marginY: 1 }}>
-              <HelpFilter
-                filtersList={[HELP_FILTER_HAS_SEARCH, HELP_FILTER_HAS_CATEGORY]}
-                setSearchQuery={(query) => {
-                  setPage(0);
-                  setSearchQuery(query);
-                }}
-                setCategoryFilter={(query) => {
-                  setPage(0);
-                  setCategoryFilter(query);
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12} sx={{ marginY: 1 }}>
+          <Grid item xs={12} sm={12} md={3} sx={{ marginY: 1 }}>
+            <HelpFilter
+              filtersList={[HELP_FILTER_HAS_SEARCH, HELP_FILTER_HAS_CATEGORY]}
+              setSearchQuery={(query) => {
+                setPage(0);
+                setSearchQuery(query);
+              }}
+              setCategoryFilter={(query) => {
+                setPage(0);
+                setCategoryFilter(query);
+              }}
+            />
+            <Box display="flex" justifyContent="flex-end">
               <CustomPagination
                 dataCount={dataCount}
                 rowsPerPage={limit}
                 page={page}
                 handleChangePage={handleChangePage}
               />
-            </Grid>
+            </Box>
           </Grid>
           <Grid
             container
             item
             xs={12}
             sm={12}
-            md={6}
-            lg={6}
+            md={9}
             spacing={2}
-            sx={{ marginY: 1, height: "min-content" }}
+            sx={{ marginY: 1 }}
           >
             {loading ? (
               <Container component="main" sx={{ padding: "0", marginY: 10 }}>
@@ -116,36 +98,12 @@ const HelpsList = () => {
             ) : (
               donations.map((donation) => {
                 return (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    md={6}
-                    lg={4}
-                    xl={4}
-                    key={donation.id}
-                  >
+                  <Grid item xs={12} sm={4} md={4} lg={3} key={donation.id}>
                     <HelpCard help={donation} />
                   </Grid>
                 );
               })
             )}
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={3}
-            lg={3}
-            sx={{
-              marginY: 2,
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "column",
-              paddingy: 0,
-            }}
-          >
-            <MostLikedHelps />
           </Grid>
         </Grid>
       </Container>

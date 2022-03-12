@@ -22,16 +22,16 @@ export default function HelpCard({ help, newState = false }) {
         justifyContent: "space-between",
       }}
     >
-      <CardMedia
+      {/* <CardMedia
         component="img"
         image="https://www.researchgate.net/publication/343504533/figure/fig4/AS:962816924188675@1606564851537/The-forest-green-lizard-Calotes-calotes-is-large-among-the-lizard-species-measuring_Q640.jpg"
         alt="green iguana"
-      />
+      /> */}
       <CardHeader
         avatar={
           <Avatar
             sx={{ bgcolor: green[500] }}
-            aria-label="recipe"
+            aria-label={help.doner.first_name || help.doner.email}
             src={help.doner.avatar_path}
           ></Avatar>
         }
@@ -53,11 +53,12 @@ export default function HelpCard({ help, newState = false }) {
           <Grid>
             <Button
               size="small"
-              color="primary"
+              color="secondary"
               component={Link}
               to={`/help-detail/${help.slug}`}
+              variant="outlined"
             >
-              Read More
+              View
             </Button>
           </Grid>
         </Grid>

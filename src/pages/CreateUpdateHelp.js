@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import {
   Container,
@@ -21,13 +21,15 @@ import parse from "html-react-parser";
 import AxiosInstance from "../AxiosInstance";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet";
-import { useHistory } from "react-router";
+import { useParams, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import RenderTemplate from "../Components/RenderTemplate";
 
-const CreateHelp = () => {
+function CreateHelp() {
   const history = useHistory();
+  const { help_slug } = useParams();
   const user = useSelector((state) => state.user);
+  const [title, setTitle] = useState("Create New Help");
   const DonationFormValidationSchema = Yup.object().shape({
     title: Yup.string()
       .min(6, "Too Short!")
@@ -47,47 +49,89 @@ const CreateHelp = () => {
       )
       .required("Please give a contact number to make your help reachable."),
   });
-  const createDonationForm = useFormik({
-    initialValues: {
-      title: "",
-      category: 0,
-      description: "",
-      location: "",
-      contact: "",
-      active: false,
-    },
-    onSubmit: (values, { isSubmitting }) => {
-      AxiosInstance.post("donation/donation/", values)
-        .then((resp) => {
-          toast.success("New Help Created Successfully!", {
+
+  const getFormData = () => {
+    AxiosInstance.get(`donation/donation/${help_slug}`)
+      .then((resp) => {
+        createDonationForm.setValues(resp.data);
+        setTitle(`Edit ${resp.data.title}`);
+      })
+      .catch((err) => console.log(err.response));
+  };
+
+  useEffect(() => {
+    if (help_slug !== undefined) {
+      getFormData();
+    }
+  }, []);
+
+  const formInitialValues = {
+    title: "",
+    category: 0,
+    description: "",
+    location: "",
+    contact: "",
+    active: false,
+  };
+
+  const url = help_slug
+    ? `donation/donation/${help_slug}/`
+    : `donation/donation/`;
+
+  const HandleCreate = (values) => {
+    AxiosInstance.post(url, values)
+      .then((resp) => {
+        createDonationForm.resetForm();
+        toast.success("New Help Creation Success!", {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      })
+      .catch((err) => {
+        for (const error_field in err.response.data) {
+          toast.warning(err.response.data[error_field], {
             position: toast.POSITION.BOTTOM_CENTER,
           });
-          createDonationForm.resetForm();
-          history.push("/helps");
-        })
-        .catch((err) => {
-          for (const error_field in err.response.data) {
-            toast.warning(err.response.data[error_field][0], {
-              position: toast.POSITION.BOTTOM_CENTER,
-            });
-          }
+        }
+      });
+  };
+
+  const HandleUpdate = (values) => {
+    AxiosInstance.put(url, values)
+      .then((resp) => {
+        setTitle(`${resp.data.title}`);
+        toast.success("Help Updated Successfully!", {
+          position: toast.POSITION.BOTTOM_CENTER,
         });
-      isSubmitting(false);
+      })
+      .catch((err) => {
+        for (const error_field in err.response.data) {
+          toast.warning(err.response.data[error_field], {
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
+        }
+      });
+  };
+
+  const createDonationForm = useFormik({
+    initialValues: formInitialValues,
+    onSubmit: (values, { isSubmitting }) => {
+      help_slug ? HandleUpdate(values) : HandleCreate(values);
+      createDonationForm.setSubmitting(false);
     },
     validationSchema: DonationFormValidationSchema,
   });
   return (
     <Container sx={{ minWidth: "90vw" }}>
       <Helmet>
-        <title>Sharing is Caring | Create New Help</title>
+        <title>{title} | Sharing is Caring</title>
       </Helmet>
-      <Paper sx={{ minHeight: "110vh", padding: "8px" }} fullWidth>
-        <Typography variant="h4" component="h4">
-          Enter Donation Details
+      <Paper sx={{ minHeight: "110vh", padding: "8px", marginY: 3 }} fullWidth>
+        <Typography variant="h4" component="h4" sx={{ paddingY: 1 }}>
+          {title}
         </Typography>
         <Divider />
         <Grid container item spacing={2}>
-          <Grid
+          {/* <Grid
             item
             sm={12}
             md={6}
@@ -97,7 +141,7 @@ const CreateHelp = () => {
           >
             <RenderTemplate />
             <Typography variant="h6">
-              {parse(createDonationForm.values.title)}
+              {createDonationForm.values.title}
             </Typography>
             <Typography variant="p">
               Category: {createDonationForm.values.category}
@@ -111,13 +155,13 @@ const CreateHelp = () => {
                 createDonationForm.values.active === true ? "true" : "false"
               )}
             </Typography>
-          </Grid>
+          </Grid> */}
           <Grid
             item
             container
             sm={12}
-            md={6}
-            xl={6}
+            md={12}
+            xl={12}
             spacing={2}
             sx={{
               display: "flex",
@@ -148,6 +192,25 @@ const CreateHelp = () => {
               />
             </Grid>
             <Grid item>
+              {/* <FormControl fullWidth>
+                <InputLabel id="categoryLabel">Category</InputLabel>
+                <Select
+                  labelId="categoryLabel"
+                  id="category"
+                  value={createDonationForm.values.category}
+                  label="Category"
+                  onChange={createDonationForm.handleChange}
+                >
+                  <MenuItem value={""}>All Categories</MenuItem>;
+                  {categories.map((category) => {
+                    return (
+                      <MenuItem value={category.id} key={category.id}>
+                        {category.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl> */}
               <CategoriesDropdown
                 setCategoryFilter={(category) => {
                   createDonationForm.setFieldValue("category", category);
@@ -178,7 +241,7 @@ const CreateHelp = () => {
               <FormControl>
                 <CKEditor
                   editor={ClassicEditor}
-                  data={createDonationForm.description}
+                  data={createDonationForm.values.description}
                   name="description"
                   onChange={(event, editor) => {
                     createDonationForm.setFieldValue(
@@ -217,7 +280,7 @@ const CreateHelp = () => {
               <FormControlLabel
                 control={
                   <Switch
-                    checked={createDonationForm.active}
+                    checked={createDonationForm.values.active}
                     onChange={createDonationForm.handleChange}
                     name="active"
                   />
@@ -231,9 +294,9 @@ const CreateHelp = () => {
                 variant="contained"
                 sx={{ color: "white" }}
                 onClick={createDonationForm.handleSubmit}
-                disabled={createDonationForm.isValidating}
+                disabled={createDonationForm.isSubmitting}
               >
-                Create Help
+                {help_slug ? "Update Help" : "Create Help"}
               </Button>
             </Grid>
           </Grid>
@@ -241,6 +304,6 @@ const CreateHelp = () => {
       </Paper>
     </Container>
   );
-};
+}
 
 export default CreateHelp;

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import HelpFilter from "../Components/HelpFilter";
 import {
   Avatar,
   Grid,
@@ -22,19 +21,28 @@ import parse from "html-react-parser";
 import { parseDate } from "../Components/Utils";
 import DonationLikeShareAction from "../Components/DonationLikeShareAction";
 import { Helmet } from "react-helmet";
+import ProfileCard from "../Components/ProfileCard";
+import MostLikedHelps from "../Components/MostLikedHelps";
+import TopCategories from "../Components/TopCategories";
 
 const HelpDetail = () => {
-  const categories = useSelector((state) => state.categories);
+  const user = useSelector((state) => state.user);
   const [help, setHelp] = useState({});
   const [loading, setLoading] = useState(true);
   const { help_slug } = useParams();
-  const user = useSelector((state) => state.user);
-  useEffect(() => {
+
+  function fetchHelpDetails() {
     AxiosInstance.get(`donation/donation/${help_slug}`).then((resp) => {
       setHelp(resp.data);
       setLoading(false);
     });
+  }
+
+  useEffect(() => {
+    setLoading(true);
+    fetchHelpDetails();
   }, [help_slug]);
+
   return loading ? (
     <Container component="main" sx={{ padding: "0", marginY: 10 }}>
       <LinearProgress />
@@ -52,21 +60,23 @@ const HelpDetail = () => {
       <Paper sx={{ padding: "10px", minHeight: "100vh" }}>
         <Container component="main" sx={{ padding: "0" }}>
           <Typography
-            component="h1"
-            variant="inherit"
+            id="help-title"
+            variant="h3"
             sx={{ marginBottom: "2vh" }}
             align="right"
           >
             {help.title}
           </Typography>
-          {help.doner.id === user.id ? (
+          {help.doner.id === user.id && (
             <Typography variant="subtitle2" align="right">
-              <Button size="large" component={Link} to="/">
+              <Button
+                size="large"
+                component={Link}
+                to={`/edit-help/${help.slug}`}
+              >
                 Edit
               </Button>
             </Typography>
-          ) : (
-            ""
           )}
           <Typography align="left">
             <DonationLikeShareAction help={help} />
@@ -78,29 +88,30 @@ const HelpDetail = () => {
                 align="left"
                 sx={{ textAlign: "justify", textJustify: "inter-word" }}
               >
-                {parse(help.description)}
+                {help.description && parse(help.description)}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={4}>
               <Grid item xs={12} sm={12} md={12}>
-                <Typography variant="subtitle1" align="right">
-                  -{" "}
-                  {help.doner.first_name.length > 0
-                    ? `${help.doner.first_name} ${help.doner.last_name}`
-                    : help.doner.email}
+                <Typography variant="h6" align="right">
+                  Helper Information
+                  <Divider />
+                  <ProfileCard user={help.doner} />
+                  <Divider />
                 </Typography>
-                <Typography variant="subtitle2" align="right">
-                  - {parseDate(help.created_at)}
+                <Typography variant="subtitle2" align="left">
+                  {`- Created: ${parseDate(help.created_at)}`}
                 </Typography>
-                <Typography variant="subtitle2" align="right">
-                  - {help.contact}
+                <Typography variant="subtitle2" align="left">
+                  {`- Last Updated: ${parseDate(help.updated_at)}`}
+                </Typography>
+                <Typography variant="subtitle2" align="left">
+                  {`- Contact: ${help.contact}`}
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={12}>
-                <HelpFilter
-                  setSearchQuery={(query) => {}}
-                  setCategoryFilter={(query) => {}}
-                />
+              <Divider />
+              <Grid item xs={12} md={12} lg={12}>
+                <MostLikedHelps />
               </Grid>
               <Divider />
               <Grid item xs={12} md={12} xl={12}>
@@ -109,122 +120,11 @@ const HelpDetail = () => {
                   align="left"
                   sx={{ textAlign: "justify", textJustify: "inter-word" }}
                 >
-                  Categories
+                  Top Categories
                 </Typography>
-                <List dense>
-                  {categories.map((category) => {
-                    return (
-                      <ListItem
-                        key={category.id}
-                        button
-                        to="/categories"
-                        component={Link}
-                      >
-                        <ListItemText
-                          primary={category.name}
-                          secondary={`Donations available: ${category.num_donations}`}
-                        />
-                      </ListItem>
-                    );
-                  })}
-                </List>
+                <TopCategories />
               </Grid>
               <Divider />
-              <Grid item xs={12} md={12} lg={12}>
-                <Typography
-                  variant="h6"
-                  align="left"
-                  sx={{ textAlign: "justify", textJustify: "inter-word" }}
-                >
-                  Trending Helps
-                </Typography>
-                <List
-                  sx={{
-                    // width: "100%",
-                    maxWidth: 360,
-                    bgcolor: "background.paper",
-                  }}
-                >
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar
-                        alt="Remy Sharp"
-                        src="/static/images/avatar/1.jpg"
-                      />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Brunch this weekend?"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            sx={{ display: "inline" }}
-                            component="span"
-                            variant="body2"
-                            color="text.primary"
-                          >
-                            Ali Connors
-                          </Typography>
-                          {
-                            " — I'll be in your neighborhood doing errands this…"
-                          }
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar
-                        alt="Travis Howard"
-                        src="/static/images/avatar/2.jpg"
-                      />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Summer BBQ"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            sx={{ display: "inline" }}
-                            component="span"
-                            variant="body2"
-                            color="text.primary"
-                          >
-                            to Scott, Alex, Jennifer
-                          </Typography>
-                          {" — Wish I could come, but I'm out of town this…"}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar
-                        alt="Cindy Baker"
-                        src="/static/images/avatar/3.jpg"
-                      />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary="Oui Oui"
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            sx={{ display: "inline" }}
-                            component="span"
-                            variant="body2"
-                            color="text.primary"
-                          >
-                            Sandra Adams
-                          </Typography>
-                          {
-                            " — Do you have Paris recommendations? Have you ever…"
-                          }
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                </List>
-              </Grid>
             </Grid>
           </Grid>
         </Container>
