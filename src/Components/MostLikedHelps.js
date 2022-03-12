@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { parseDate } from "./Utils";
+import { host } from "../AxiosInstance";
 const MostLikedHelps = () => {
   const [loading, setLoading] = React.useState(true);
   const mostLikedHelps = useSelector(
@@ -51,7 +52,7 @@ const MostLikedHelps = () => {
                   <ListItemAvatar>
                     <Avatar
                       alt={`${donation.doner.first_name} ${donation.doner.last_name}`}
-                      src={donation.doner.avatar_path}
+                      src={host + donation.doner.avatar_path}
                     />
                   </ListItemAvatar>
                   <ListItemText

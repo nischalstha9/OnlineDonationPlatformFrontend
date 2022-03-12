@@ -13,6 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileCard from "./ProfileCard";
+import { host } from "../AxiosInstance";
 
 const UserMenu = [
   { name: "Create New Help", to: "/create-help" },
@@ -130,7 +131,7 @@ const Navbar = ({ isAuthenticated }) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="User Actions">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={user.email} src={user.avatar_path} />
+                <Avatar alt={user.email} src={host + user.avatar_path} />
               </IconButton>
             </Tooltip>
             <Menu

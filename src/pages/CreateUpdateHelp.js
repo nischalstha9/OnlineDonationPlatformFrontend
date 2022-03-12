@@ -85,8 +85,10 @@ function CreateHelp() {
         toast.success("New Help Creation Success!", {
           position: toast.POSITION.BOTTOM_CENTER,
         });
+        history.replace(`/help-detail/${resp.data.slug}`);
       })
       .catch((err) => {
+        createDonationForm.setErrors(err.response.data);
         for (const error_field in err.response.data) {
           toast.warning(err.response.data[error_field], {
             position: toast.POSITION.BOTTOM_CENTER,
@@ -102,8 +104,10 @@ function CreateHelp() {
         toast.success("Help Updated Successfully!", {
           position: toast.POSITION.BOTTOM_CENTER,
         });
+        history.replace(`/help-detail/${resp.data.slug}`);
       })
       .catch((err) => {
+        createDonationForm.setErrors(err.response.data);
         for (const error_field in err.response.data) {
           toast.warning(err.response.data[error_field], {
             position: toast.POSITION.BOTTOM_CENTER,

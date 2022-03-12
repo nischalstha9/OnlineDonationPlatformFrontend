@@ -28,23 +28,24 @@ const Routes = ({ isAuthenticated }) => {
       <Navbar isAuthenticated={isAuthenticated} />
       <CssBaseline />
       <Switch>
-        <Route path="/about" component={About} />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/login" component={Login} />
-        <Route path="/helps" component={HelpList} />
-        <Route path="/activate" component={ActivateAccount} />
-        <Route path="/help-detail/:help_slug" component={HelpDetail} />
-        <Route path="/create-help" component={CreateUpdateHelp} />
-        <Route path="/forget-password" component={ForgetPassword} />
-        <Route path="/forget" component={SetNewPassword} />
+        <Route exact path="/about" component={About} />
+        <Route exact path="/signup" component={SignUp} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/helps" component={HelpList} />
+        <Route exact path="/activate" component={ActivateAccount} />
+        <Route exact path="/help-detail/:help_slug" component={HelpDetail} />
+        <Route exact path="/create-help" component={CreateUpdateHelp} />
+        <Route exact path="/forget-password" component={ForgetPassword} />
+        <Route exact path="/forget" component={SetNewPassword} />
         <PrivateRoute
+          exact
           path="/edit-help/:help_slug"
           component={CreateUpdateHelp}
         />
-        <PrivateRoute path="/my-helps" component={MyHelps} />
-        <PrivateRoute path="/my-liked-helps" component={LikedHelps} />
-        <PrivateRoute path="/logout" component={Logout} />
-        <PrivateRoute path="/profile" component={Profile} />
+        <PrivateRoute exact path="/my-helps" component={MyHelps} />
+        <PrivateRoute exact path="/my-liked-helps" component={LikedHelps} />
+        <Route exact path="/logout" component={Logout} />
+        <PrivateRoute exact path="/profile" component={Profile} />
       </Switch>
     </Router>
   );

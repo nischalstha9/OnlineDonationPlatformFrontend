@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import AxiosInstance from "../AxiosInstance";
+import AxiosInstance, { host } from "../AxiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { insert_user } from "../redux/action";
 import { Helmet } from "react-helmet";
@@ -15,7 +15,6 @@ import {
   Paper,
   Avatar,
   MenuItem,
-  Input,
 } from "@mui/material";
 import { GENDERS } from "../redux/constants";
 import { useFormik } from "formik";
@@ -88,7 +87,7 @@ const MyAccount = () => {
           >
             <Avatar
               alt={user.email}
-              src={user.avatar_path}
+              src={host + user.avatar_path}
               sx={{ height: 200, width: 200 }}
             ></Avatar>
             <TextField

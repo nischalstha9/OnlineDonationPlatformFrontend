@@ -9,6 +9,7 @@ import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import { parseDate } from "./Utils";
 import DonationLikeShareAction from "./DonationLikeShareAction";
+import { host } from "../AxiosInstance";
 
 export default function HelpCard({ help, newState = false }) {
   return (
@@ -32,7 +33,7 @@ export default function HelpCard({ help, newState = false }) {
           <Avatar
             sx={{ bgcolor: green[500] }}
             aria-label={help.doner.first_name || help.doner.email}
-            src={help.doner.avatar_path}
+            src={host + help.doner.avatar_path}
           ></Avatar>
         }
         title={help.title}
