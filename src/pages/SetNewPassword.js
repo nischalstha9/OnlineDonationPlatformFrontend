@@ -50,6 +50,7 @@ export default function Login() {
               position: toast.POSITION.BOTTOM_CENTER,
             }
           );
+          history.push("/login");
         })
         .catch((err) => {
           toast.error(Object.values(err.response.data)[0][0], {
@@ -58,7 +59,6 @@ export default function Login() {
         });
       setSubmitting(false);
       passwordSetForm.resetForm();
-      history.push("/login");
     },
     validationSchema: passwordSetSchema,
   });

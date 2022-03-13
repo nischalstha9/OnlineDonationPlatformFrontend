@@ -13,7 +13,7 @@ import MyHelps from "../pages/MyHelps";
 import CreateUpdateHelp from "../pages/CreateUpdateHelp";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Categories from "../Components/Categories";
+import NOT_FOUND from "../pages/404";
 import ActivateAccount from "../pages/ActivateAccount";
 import ForgetPassword from "../pages/ForgetPassword";
 import SetNewPassword from "../pages/SetNewPassword";
@@ -24,10 +24,10 @@ const Routes = ({ isAuthenticated }) => {
   return (
     <Router>
       <ToastContainer autoClose={3000} />
-      <Categories />
       <Navbar isAuthenticated={isAuthenticated} />
       <CssBaseline />
       <Switch>
+        <Route exact path="/" component={HelpList} />
         <Route exact path="/about" component={About} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/login" component={Login} />
@@ -44,8 +44,9 @@ const Routes = ({ isAuthenticated }) => {
         />
         <PrivateRoute exact path="/my-helps" component={MyHelps} />
         <PrivateRoute exact path="/my-liked-helps" component={LikedHelps} />
-        <Route exact path="/logout" component={Logout} />
+        <PrivateRoute exact path="/logout" component={Logout} />
         <PrivateRoute exact path="/profile" component={Profile} />
+        <Route path="*" component={NOT_FOUND} />
       </Switch>
     </Router>
   );

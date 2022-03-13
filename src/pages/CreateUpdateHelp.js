@@ -12,6 +12,7 @@ import {
   Divider,
   FormControl,
   FormHelperText,
+  Box,
 } from "@mui/material";
 import { useFormik } from "formik";
 import CategoriesDropdown from "../Components/CategoriesDropdown";
@@ -29,6 +30,7 @@ function CreateHelp() {
   const history = useHistory();
   const { help_slug } = useParams();
   const user = useSelector((state) => state.user);
+  const [isOwner, setIsOwner] = useState(false);
   const [title, setTitle] = useState("Create New Help");
   const DonationFormValidationSchema = Yup.object().shape({
     title: Yup.string()
@@ -54,6 +56,7 @@ function CreateHelp() {
     AxiosInstance.get(`donation/donation/${help_slug}`)
       .then((resp) => {
         createDonationForm.setValues(resp.data);
+        setIsOwner(resp.data.user.id == user.id);
         setTitle(`Edit ${resp.data.title}`);
       })
       .catch((err) => console.log(err.response));
@@ -129,13 +132,17 @@ function CreateHelp() {
       <Helmet>
         <title>{title} | Sharing is Caring</title>
       </Helmet>
-      <Paper sx={{ minHeight: "110vh", padding: "8px", marginY: 3 }} fullWidth>
-        <Typography variant="h4" component="h4" sx={{ paddingY: 1 }}>
-          {title}
-        </Typography>
-        <Divider />
-        <Grid container item spacing={2}>
-          {/* <Grid
+      {isOwner ? (
+        <Paper
+          sx={{ minHeight: "110vh", padding: "8px", marginY: 3 }}
+          fullWidth
+        >
+          <Typography variant="h4" component="h4" sx={{ paddingY: 1 }}>
+            {title}
+          </Typography>
+          <Divider />
+          <Grid container item spacing={2}>
+            {/* <Grid
             item
             sm={12}
             md={6}
@@ -160,43 +167,43 @@ function CreateHelp() {
               )}
             </Typography>
           </Grid> */}
-          <Grid
-            item
-            container
-            sm={12}
-            md={12}
-            xl={12}
-            spacing={2}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              paddingTop: "10px",
-              marginTop: "10px",
-              overflow: "hidden",
-            }}
-          >
-            <Grid item>
-              <TextField
-                autoFocus
-                name="title"
-                required
-                fullWidth
-                id="title"
-                label="Help Title"
-                onChange={createDonationForm.handleChange}
-                value={createDonationForm.values.title}
-                error={
-                  createDonationForm.touched.title &&
-                  Boolean(createDonationForm.errors.title)
-                }
-                helperText={
-                  createDonationForm.touched.title &&
-                  createDonationForm.errors.title
-                }
-              />
-            </Grid>
-            <Grid item>
-              {/* <FormControl fullWidth>
+            <Grid
+              item
+              container
+              sm={12}
+              md={12}
+              xl={12}
+              spacing={2}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                paddingTop: "10px",
+                marginTop: "10px",
+                overflow: "hidden",
+              }}
+            >
+              <Grid item>
+                <TextField
+                  autoFocus
+                  name="title"
+                  required
+                  fullWidth
+                  id="title"
+                  label="Help Title"
+                  onChange={createDonationForm.handleChange}
+                  value={createDonationForm.values.title}
+                  error={
+                    createDonationForm.touched.title &&
+                    Boolean(createDonationForm.errors.title)
+                  }
+                  helperText={
+                    createDonationForm.touched.title &&
+                    createDonationForm.errors.title
+                  }
+                />
+              </Grid>
+              <Grid item>
+                {/* <FormControl fullWidth>
                 <InputLabel id="categoryLabel">Category</InputLabel>
                 <Select
                   labelId="categoryLabel"
@@ -215,97 +222,128 @@ function CreateHelp() {
                   })}
                 </Select>
               </FormControl> */}
-              <CategoriesDropdown
-                setCategoryFilter={(category) => {
-                  createDonationForm.setFieldValue("category", category);
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                autoComplete=""
-                name="location"
-                required
-                fullWidth
-                id="location"
-                label="Location"
-                onChange={createDonationForm.handleChange}
-                value={createDonationForm.values.location}
-                error={
-                  createDonationForm.touched.location &&
-                  Boolean(createDonationForm.errors.location)
-                }
-                helperText={
-                  createDonationForm.touched.location &&
-                  createDonationForm.errors.location
-                }
-              />
-            </Grid>
-            <Grid item>
-              <FormControl>
-                <CKEditor
-                  editor={ClassicEditor}
-                  data={createDonationForm.values.description}
-                  name="description"
-                  onChange={(event, editor) => {
-                    createDonationForm.setFieldValue(
-                      "description",
-                      editor.getData()
-                    );
+                <CategoriesDropdown
+                  setCategoryFilter={(category) => {
+                    createDonationForm.setFieldValue("category", category);
                   }}
                 />
-                <FormHelperText id="my-helper-text" sx={{ color: "#d32f2f" }}>
-                  {createDonationForm.touched.description &&
-                    createDonationForm.errors.description}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid item>
-              <TextField
-                autoComplete=""
-                name="contact"
-                required
-                fullWidth
-                id="contact"
-                label="Contact"
-                onChange={createDonationForm.handleChange}
-                value={createDonationForm.values.contact}
-                error={
-                  createDonationForm.touched.contact &&
-                  Boolean(createDonationForm.errors.contact)
-                }
-                helperText={
-                  createDonationForm.touched.contact &&
-                  createDonationForm.errors.contact
-                }
-              />
-            </Grid>
-            <Grid item>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={createDonationForm.values.active}
-                    onChange={createDonationForm.handleChange}
-                    name="active"
+              </Grid>
+              <Grid item>
+                <TextField
+                  autoComplete=""
+                  name="location"
+                  required
+                  fullWidth
+                  id="location"
+                  label="Location"
+                  onChange={createDonationForm.handleChange}
+                  value={createDonationForm.values.location}
+                  error={
+                    createDonationForm.touched.location &&
+                    Boolean(createDonationForm.errors.location)
+                  }
+                  helperText={
+                    createDonationForm.touched.location &&
+                    createDonationForm.errors.location
+                  }
+                />
+              </Grid>
+              <Grid item>
+                <FormControl>
+                  <CKEditor
+                    editor={ClassicEditor}
+                    data={createDonationForm.values.description}
+                    name="description"
+                    onChange={(event, editor) => {
+                      createDonationForm.setFieldValue(
+                        "description",
+                        editor.getData()
+                      );
+                    }}
                   />
-                }
-                label="Active"
-                name="active"
-              />
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                sx={{ color: "white" }}
-                onClick={createDonationForm.handleSubmit}
-                disabled={createDonationForm.isSubmitting}
-              >
-                {help_slug ? "Update Help" : "Create Help"}
-              </Button>
+                  <FormHelperText id="my-helper-text" sx={{ color: "#d32f2f" }}>
+                    {createDonationForm.touched.description &&
+                      createDonationForm.errors.description}
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item>
+                <TextField
+                  autoComplete=""
+                  name="contact"
+                  required
+                  fullWidth
+                  id="contact"
+                  label="Contact"
+                  onChange={createDonationForm.handleChange}
+                  value={createDonationForm.values.contact}
+                  error={
+                    createDonationForm.touched.contact &&
+                    Boolean(createDonationForm.errors.contact)
+                  }
+                  helperText={
+                    createDonationForm.touched.contact &&
+                    createDonationForm.errors.contact
+                  }
+                />
+              </Grid>
+              <Grid item>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={createDonationForm.values.active}
+                      onChange={createDonationForm.handleChange}
+                      name="active"
+                    />
+                  }
+                  label="Active"
+                  name="active"
+                />
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  sx={{ color: "white" }}
+                  onClick={createDonationForm.handleSubmit}
+                  disabled={createDonationForm.isSubmitting}
+                >
+                  {help_slug ? "Update Help" : "Create Help"}
+                </Button>
+                {help_slug && (
+                  <Button
+                    variant="contained"
+                    sx={{ color: "white" }}
+                    onClick={""}
+                    disabled={""}
+                  >
+                    Delete Help
+                  </Button>
+                )}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
+      ) : (
+        <Container component="main" maxWidth="sm" sx={{ marginTop: "15vh" }}>
+          <Paper sx={{ padding: "1vh 2vw", border: "5px solid #39aa57" }}>
+            <Box
+              sx={{
+                marginTop: 8,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Typography component="h1" variant="h5">
+                :(
+              </Typography>
+              <Box component="form" noValidate sx={{ mt: 3 }}>
+                You do not have permission to perform this action.
+              </Box>
+            </Box>
+          </Paper>
+        </Container>
+      )}
     </Container>
   );
 }

@@ -9,9 +9,11 @@ import { useDispatch } from "react-redux";
 import { Helmet } from "react-helmet";
 import Paper from "@mui/material/Paper";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 const Logout = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const removeToken = () => {
     AxiosInstance.post("auth/token/blacklist/")
       .then((resp) => {})
@@ -25,6 +27,7 @@ const Logout = () => {
         toast.error("You have been logged out!", {
           position: toast.POSITION.BOTTOM_CENTER,
         });
+        history.push("/login");
       });
   };
   return (
