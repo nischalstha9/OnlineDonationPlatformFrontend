@@ -24,18 +24,27 @@ import { Helmet } from "react-helmet";
 import ProfileCard from "../Components/ProfileCard";
 import MostLikedHelps from "../Components/MostLikedHelps";
 import TopCategories from "../Components/TopCategories";
+import NoPermission from "../Components/NoPermission";
 
 const HelpDetail = () => {
   const user = useSelector((state) => state.user);
   const [help, setHelp] = useState({});
+  const [isOwner, setIsOwner] = useState(false);
   const [loading, setLoading] = useState(true);
   const { help_slug } = useParams();
 
   function fetchHelpDetails() {
-    AxiosInstance.get(`donation/donation/${help_slug}`).then((resp) => {
-      setHelp(resp.data);
-      setLoading(false);
-    });
+    AxiosInstance.get(`donation/donation/${help_slug}`)
+      .then((resp) => {
+        setHelp(resp.data);
+        setIsOwner(true);
+      })
+      .catch((err) => {
+        setIsOwner(false);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   useEffect(() => {
@@ -47,7 +56,7 @@ const HelpDetail = () => {
     <Container component="main" sx={{ padding: "0", marginY: 10 }}>
       <LinearProgress />
     </Container>
-  ) : (
+  ) : isOwner ? (
     <>
       <Helmet>
         <title>{help.title} | Sharing is Caring</title>
@@ -75,6 +84,14 @@ const HelpDetail = () => {
                 to={`/edit-help/${help.slug}`}
               >
                 Edit
+              </Button>
+              <Button
+                size="large"
+                component={Link}
+                color="error"
+                to={`/delete-help/${help.slug}`}
+              >
+                Delete
               </Button>
             </Typography>
           )}
@@ -130,6 +147,8 @@ const HelpDetail = () => {
         </Container>
       </Paper>
     </>
+  ) : (
+    <NoPermission />
   );
 };
 

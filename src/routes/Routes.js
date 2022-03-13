@@ -18,6 +18,7 @@ import ActivateAccount from "../pages/ActivateAccount";
 import ForgetPassword from "../pages/ForgetPassword";
 import SetNewPassword from "../pages/SetNewPassword";
 import LikedHelps from "../pages/LikedHelps";
+import DeleteHelp from "../pages/DeleteHelp";
 import Profile from "../pages/Profile";
 
 const Routes = ({ isAuthenticated }) => {
@@ -34,6 +35,7 @@ const Routes = ({ isAuthenticated }) => {
         <Route exact path="/helps" component={HelpList} />
         <Route exact path="/activate" component={ActivateAccount} />
         <Route exact path="/help-detail/:help_slug" component={HelpDetail} />
+        <Route exact path="/delete-help/:help_slug" component={DeleteHelp} />
         <Route exact path="/create-help" component={CreateUpdateHelp} />
         <Route exact path="/forget-password" component={ForgetPassword} />
         <Route exact path="/forget" component={SetNewPassword} />

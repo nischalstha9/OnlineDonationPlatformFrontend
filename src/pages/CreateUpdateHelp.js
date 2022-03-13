@@ -12,7 +12,7 @@ import {
   Divider,
   FormControl,
   FormHelperText,
-  Box,
+  LinearProgress,
 } from "@mui/material";
 import { useFormik } from "formik";
 import CategoriesDropdown from "../Components/CategoriesDropdown";
@@ -25,13 +25,15 @@ import { Helmet } from "react-helmet";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import RenderTemplate from "../Components/RenderTemplate";
+import NoPermission from "../Components/NoPermission";
 
-function CreateHelp() {
+function CreateUpdateHelp({ help }) {
   const history = useHistory();
   const { help_slug } = useParams();
   const user = useSelector((state) => state.user);
   const [isOwner, setIsOwner] = useState(false);
   const [title, setTitle] = useState("Create New Help");
+  const [loading, setLoading] = useState(true);
   const DonationFormValidationSchema = Yup.object().shape({
     title: Yup.string()
       .min(6, "Too Short!")
@@ -55,16 +57,22 @@ function CreateHelp() {
   const getFormData = () => {
     AxiosInstance.get(`donation/donation/${help_slug}`)
       .then((resp) => {
-        createDonationForm.setValues(resp.data);
-        setIsOwner(resp.data.user.id == user.id);
-        setTitle(`Edit ${resp.data.title}`);
+        let _help = resp.data;
+        createDonationForm.setValues(_help);
+        setIsOwner(_help.doner.id == user.id);
+        setTitle(`Edit ${_help.title}`);
       })
-      .catch((err) => console.log(err.response));
+      .catch((err) => console.log(err.response))
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
-    if (help_slug !== undefined) {
+    if (help_slug !== undefined && !help) {
       getFormData();
+    } else {
+      createDonationForm.setValues(help);
     }
   }, []);
 
@@ -127,7 +135,11 @@ function CreateHelp() {
     },
     validationSchema: DonationFormValidationSchema,
   });
-  return (
+  return loading ? (
+    <Container component="main" sx={{ padding: "0", marginY: 10 }}>
+      <LinearProgress />
+    </Container>
+  ) : (
     <Container sx={{ minWidth: "90vw" }}>
       <Helmet>
         <title>{title} | Sharing is Caring</title>
@@ -324,28 +336,10 @@ function CreateHelp() {
           </Grid>
         </Paper>
       ) : (
-        <Container component="main" maxWidth="sm" sx={{ marginTop: "15vh" }}>
-          <Paper sx={{ padding: "1vh 2vw", border: "5px solid #39aa57" }}>
-            <Box
-              sx={{
-                marginTop: 8,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Typography component="h1" variant="h5">
-                :(
-              </Typography>
-              <Box component="form" noValidate sx={{ mt: 3 }}>
-                You do not have permission to perform this action.
-              </Box>
-            </Box>
-          </Paper>
-        </Container>
+        <NoPermission />
       )}
     </Container>
   );
 }
 
-export default CreateHelp;
+export default CreateUpdateHelp;

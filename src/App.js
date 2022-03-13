@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import Routes from "./routes/Routes";
 import theme from "./Theme";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,7 +29,7 @@ function App() {
     if (!user) {
       AxiosInstance.get("auth/user/").then((resp) => {
         let new_user_data = resp.data;
-        localStorage.setItem("user", new_user_data);
+        localStorage.setItem("user", JSON.stringify(new_user_data));
         dispatch(insert_user(new_user_data));
       });
     } else {
