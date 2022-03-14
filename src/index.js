@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider as ReduxProvider } from "react-redux";
 import allReducers from "./redux/reducers";
 import { createStore } from "redux";
+import "react-toastify/dist/ReactToastify.css";
 
 const store = createStore(
   allReducers,

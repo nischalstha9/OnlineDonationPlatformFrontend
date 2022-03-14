@@ -27,7 +27,7 @@ import { useSelector } from "react-redux";
 import RenderTemplate from "../Components/RenderTemplate";
 import NoPermission from "../Components/NoPermission";
 
-function CreateUpdateHelp({ help }) {
+function CreateUpdateHelp() {
   const history = useHistory();
   const { help_slug } = useParams();
   const user = useSelector((state) => state.user);
@@ -69,10 +69,10 @@ function CreateUpdateHelp({ help }) {
   };
 
   useEffect(() => {
-    if (help_slug !== undefined && !help) {
+    if (help_slug !== undefined) {
       getFormData();
     } else {
-      createDonationForm.setValues(help);
+      setLoading(false);
     }
   }, []);
 
@@ -144,7 +144,7 @@ function CreateUpdateHelp({ help }) {
       <Helmet>
         <title>{title} | Sharing is Caring</title>
       </Helmet>
-      {isOwner ? (
+      {isOwner || !help_slug ? (
         <Paper
           sx={{ minHeight: "110vh", padding: "8px", marginY: 3 }}
           fullWidth
@@ -321,16 +321,6 @@ function CreateUpdateHelp({ help }) {
                 >
                   {help_slug ? "Update Help" : "Create Help"}
                 </Button>
-                {help_slug && (
-                  <Button
-                    variant="contained"
-                    sx={{ color: "white" }}
-                    onClick={""}
-                    disabled={""}
-                  >
-                    Delete Help
-                  </Button>
-                )}
               </Grid>
             </Grid>
           </Grid>

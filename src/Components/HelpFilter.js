@@ -36,8 +36,8 @@ export default function HelpFilter({
         borderRadius: "10px",
         marginTop: "10px",
       }}
-      item
-      container
+      // item
+      // container
       xs={12}
       sm={12}
       spacing={2}

@@ -13,6 +13,7 @@ import {
   ListItemText,
   LinearProgress,
   Button,
+  ButtonGroup,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
@@ -78,21 +79,23 @@ const HelpDetail = () => {
           </Typography>
           {help.doner.id === user.id && (
             <Typography variant="subtitle2" align="right">
-              <Button
-                size="large"
-                component={Link}
-                to={`/edit-help/${help.slug}`}
-              >
-                Edit
-              </Button>
-              <Button
-                size="large"
-                component={Link}
-                color="error"
-                to={`/delete-help/${help.slug}`}
-              >
-                Delete
-              </Button>
+              <ButtonGroup aria-label="outlined primary button group">
+                <Button
+                  size="large"
+                  component={Link}
+                  to={`/edit-help/${help.slug}`}
+                >
+                  Edit
+                </Button>
+                <Button
+                  size="large"
+                  component={Link}
+                  color="error"
+                  to={`/delete-help/${help.slug}`}
+                >
+                  Delete
+                </Button>
+              </ButtonGroup>
             </Typography>
           )}
           <Typography align="left">

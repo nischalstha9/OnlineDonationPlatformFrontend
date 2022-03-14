@@ -98,11 +98,23 @@ export default function Login() {
           </Typography>
           <Box component="form" noValidate sx={{ mt: 3 }}>
             <Button
-              type="submit"
               fullWidth
               variant="contained"
-              color="error"
+              color="success"
+              disableElevation
               sx={{ mt: 3, mb: 2, color: "white" }}
+              component={Link}
+              to={`/help-detail/${help.slug}`}
+            >
+              Go Back
+            </Button>
+          </Box>
+          <Box component="form" noValidate sx={{ mt: 3 }}>
+            <Button
+              fullWidth
+              variant="outlined"
+              color="error"
+              sx={{ mt: 3, mb: 2 }}
               onClick={(e) => {
                 handleDelete(e);
               }}

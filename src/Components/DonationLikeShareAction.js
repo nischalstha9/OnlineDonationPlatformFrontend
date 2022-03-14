@@ -5,6 +5,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import ShareIcon from "@mui/icons-material/Share";
 import { useSelector } from "react-redux";
 import AxiosInstance from "../AxiosInstance";
+import { toast } from "react-toastify";
 
 const DonationLikeShareAction = ({ help, newState = false }) => {
   const userId = useSelector((state) => state.user.id);
@@ -36,7 +37,15 @@ const DonationLikeShareAction = ({ help, newState = false }) => {
           <FavoriteBorderOutlinedIcon></FavoriteBorderOutlinedIcon>
         )}
       </IconButton>
-      <IconButton aria-label="share">
+      <IconButton
+        aria-label="share"
+        onClick={() => {
+          navigator.clipboard.writeText(
+            window.location + "help-detail/" + help.slug
+          );
+          toast.info("Link copied to clipboard", { autoClose: 1000 });
+        }}
+      >
         <ShareIcon />
       </IconButton>
     </Grid>
