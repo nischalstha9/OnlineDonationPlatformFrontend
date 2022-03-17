@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import ScrollToTop from "../Components/ScrollToTop";
 import About from "../pages/About";
 import SignUp from "../pages/SignUp";
 import Login from "../pages/Login";
@@ -31,6 +32,7 @@ const Routes = ({ isAuthenticated }) => {
       />
       <Navbar isAuthenticated={isAuthenticated} />
       <CssBaseline />
+      <ScrollToTop />
       <Switch>
         <Box sx={{ minHeight: "90vh" }}>
           <Route exact path="/" component={HelpList} />

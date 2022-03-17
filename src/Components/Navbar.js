@@ -178,7 +178,6 @@ const Navbar = ({ isAuthenticated }) => {
           <Box sx={{ flexGrow: 0 }}>
             <Button
               sx={{ ml: 4, color: "white" }}
-              variant="contained"
               color="secondary"
               component={Link}
               to="/login"

@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 // import serviceWorker from "./serviceWorker";
 import { Provider as ReduxProvider } from "react-redux";
 import allReducers from "./redux/reducers";
 import { createStore } from "redux";
+// import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 
 const store = createStore(
