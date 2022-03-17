@@ -86,6 +86,7 @@ export default function Login() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
+                  autoFocus
                   required
                   fullWidth
                   id="email"

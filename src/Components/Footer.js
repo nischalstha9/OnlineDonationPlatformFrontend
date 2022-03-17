@@ -1,11 +1,17 @@
 import * as React from "react";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Divider from "@mui/material/Divider";
-import Link from "@mui/material/Link";
-import { List, ListItem, ListItemText } from "@mui/material";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  Grid,
+  Box,
+  Typography,
+  Container,
+  Divider,
+  Link,
+} from "@mui/material";
+import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 function Copyright() {
   return (
@@ -13,7 +19,11 @@ function Copyright() {
       <Divider sx={{ marginY: 2 }} />
       <Typography variant="body2" color="text.secondary" align="center">
         {"Copyright © "}
-        <Link color="inherit" href="https://shrestha-nischal.com.np/">
+        <Link
+          color="inherit"
+          href="https://shrestha-nischal.com.np/"
+          target="_blank"
+        >
           Nischal Shrestha
         </Link>{" "}
         {new Date().getFullYear()}
@@ -75,7 +85,20 @@ export default function Footer() {
           <Grid item xs={12} md={6} lg={4}>
             <Typography variant="h6">Follow Us</Typography>
             <Typography variant="body1">
-              My sticky footer can be found here.
+              <Link
+                color="inherit"
+                href="https://facebook.com/see.eu.again"
+                target="_blank"
+              >
+                <FacebookRoundedIcon sx={{ fontSize: "48px", color: "blue" }} />
+              </Link>
+              <Link
+                color="inherit"
+                href="https://github.com/nischalstha9"
+                target="_blank"
+              >
+                <GitHubIcon sx={{ fontSize: "48px", color: "black" }} />
+              </Link>
             </Typography>
           </Grid>
         </Grid>

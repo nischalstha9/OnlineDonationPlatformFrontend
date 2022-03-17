@@ -72,7 +72,11 @@ const MyAccount = () => {
   });
   return (
     <>
-      <Container component="main" maxWidth="sm" sx={{ marginTop: 3 }}>
+      <Container
+        component="main"
+        maxWidth="sm"
+        sx={{ marginTop: 3, marginBottom: 8 }}
+      >
         <Helmet>
           <title>Profile | {user.email} | Sharing is Caring</title>
         </Helmet>

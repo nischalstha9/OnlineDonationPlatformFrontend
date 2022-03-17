@@ -23,11 +23,11 @@ export default function HelpCard({ help, newState = false }) {
         justifyContent: "space-between",
       }}
     >
-      {/* <CardMedia
+      <CardMedia
         component="img"
         image="https://www.researchgate.net/publication/343504533/figure/fig4/AS:962816924188675@1606564851537/The-forest-green-lizard-Calotes-calotes-is-large-among-the-lizard-species-measuring_Q640.jpg"
         alt="green iguana"
-      /> */}
+      />
       <CardHeader
         avatar={
           <Avatar

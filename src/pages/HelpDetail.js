@@ -13,7 +13,7 @@ import {
   ListItemText,
   LinearProgress,
   Button,
-  ButtonGroup,
+  Box,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
@@ -79,23 +79,21 @@ const HelpDetail = () => {
           </Typography>
           {help.doner.id === user.id && (
             <Typography variant="subtitle2" align="right">
-              <ButtonGroup aria-label="outlined primary button group">
-                <Button
-                  size="large"
-                  component={Link}
-                  to={`/edit-help/${help.slug}`}
-                >
-                  Edit
-                </Button>
-                <Button
-                  size="large"
-                  component={Link}
-                  color="error"
-                  to={`/delete-help/${help.slug}`}
-                >
-                  Delete
-                </Button>
-              </ButtonGroup>
+              <Button
+                size="large"
+                component={Link}
+                to={`/edit-help/${help.slug}`}
+              >
+                Edit
+              </Button>
+              <Button
+                size="large"
+                component={Link}
+                color="error"
+                to={`/delete-help/${help.slug}`}
+              >
+                Delete
+              </Button>
             </Typography>
           )}
           <Typography align="left">
@@ -119,22 +117,24 @@ const HelpDetail = () => {
                   <ProfileCard user={help.doner} />
                   <Divider />
                 </Typography>
-                <Typography variant="subtitle2" align="left">
-                  {`- Created: ${parseDate(help.created_at)}`}
-                </Typography>
-                <Typography variant="subtitle2" align="left">
-                  {`- Last Updated: ${parseDate(help.updated_at)}`}
-                </Typography>
-                <Typography variant="subtitle2" align="left">
-                  {`- Contact: ${help.contact}`}
-                </Typography>
+                <Box sx={{ marginY: 3 }}>
+                  <Typography variant="subtitle2" align="left">
+                    {`- Created: ${parseDate(help.created_at)}`}
+                  </Typography>
+                  <Typography variant="subtitle2" align="left">
+                    {`- Last Updated: ${parseDate(help.updated_at)}`}
+                  </Typography>
+                  <Typography variant="subtitle2" align="left">
+                    {`- Contact: ${help.contact}`}
+                  </Typography>
+                </Box>
               </Grid>
               <Divider />
               <Grid item xs={12} md={12} lg={12}>
                 <MostLikedHelps />
               </Grid>
               <Divider />
-              <Grid item xs={12} md={12} xl={12}>
+              <Grid item xs={12} md={12} xl={12} sx={{ marginTop: 3 }}>
                 <Typography
                   variant="h6"
                   align="left"
@@ -142,9 +142,9 @@ const HelpDetail = () => {
                 >
                   Top Categories
                 </Typography>
+                <Divider />
                 <TopCategories />
               </Grid>
-              <Divider />
             </Grid>
           </Grid>
         </Container>

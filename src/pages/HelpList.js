@@ -110,7 +110,10 @@ const HelpsList = () => {
             sx={{ marginY: 1, height: "min-content" }}
           >
             {loading ? (
-              <Container component="main" sx={{ padding: "0", marginY: 10 }}>
+              <Container
+                component="main"
+                sx={{ paddingY: 0, paddingX: 2, marginY: 10 }}
+              >
                 <LinearProgress />
               </Container>
             ) : (
@@ -140,7 +143,7 @@ const HelpsList = () => {
             sx={{
               marginY: 2,
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "flex-start",
               flexDirection: "column",
               paddingy: 0,
             }}

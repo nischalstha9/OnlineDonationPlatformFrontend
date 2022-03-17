@@ -54,11 +54,13 @@ const Navbar = ({ isAuthenticated }) => {
         <Typography
           variant="h6"
           noWrap
-          component="div"
+          component={Link}
+          to="/"
           sx={{
             mr: 2,
             display: { xs: "none", md: "flex" },
-            // color: "white",
+            color: "white",
+            textDecoration: "none",
           }}
         >
           Sharing is Caring
@@ -109,11 +111,14 @@ const Navbar = ({ isAuthenticated }) => {
         <Typography
           variant="h6"
           noWrap
-          component="div"
+          component={Link}
+          to="/"
           sx={{
+            mr: 2,
+            color: "white",
+            textDecoration: "none",
             flexGrow: 1,
             display: { xs: "flex", md: "none" },
-            // color: "white",
           }}
         >
           Sharing is Caring

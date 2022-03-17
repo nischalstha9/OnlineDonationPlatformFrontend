@@ -32,7 +32,7 @@ const Routes = ({ isAuthenticated }) => {
       <Navbar isAuthenticated={isAuthenticated} />
       <CssBaseline />
       <Switch>
-        <Box sx={{ minHeight: "120vh" }}>
+        <Box sx={{ minHeight: "90vh" }}>
           <Route exact path="/" component={HelpList} />
           <Route exact path="/about" component={About} />
           <Route exact path="/signup" component={SignUp} />

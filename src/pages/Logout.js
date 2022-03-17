@@ -35,23 +35,25 @@ const Logout = () => {
       <Helmet>
         <title>Sharing is Caring | Login</title>
       </Helmet>
-      <Paper sx={{ padding: "1vh 2vw", border: "5px solid #39aa57" }}>
+      <Paper
+        sx={{ padding: "1vh 2vw", border: "5px solid #39aa57", paddingY: 15 }}
+      >
         <Box
           sx={{
-            marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
           <Typography variant="h4">Logout</Typography>
-          <Box component="form" noValidate sx={{ mt: 3 }}>
-            <Typography variant="h5">Are you sure to logout?</Typography>
+          <Box component="form" noValidate sx={{ marginY: 3 }}>
+            <Typography variant="h5">
+              Are you sure you want to logout?
+            </Typography>
           </Box>
         </Box>
         <Box
           sx={{
-            marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",

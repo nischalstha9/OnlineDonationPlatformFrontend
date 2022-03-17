@@ -41,7 +41,7 @@ const DonationLikeShareAction = ({ help, newState = false }) => {
         aria-label="share"
         onClick={() => {
           navigator.clipboard.writeText(
-            window.location + "help-detail/" + help.slug
+            window.location.host + "/help-detail/" + help.slug
           );
           toast.info("Link copied to clipboard", { autoClose: 1000 });
         }}
