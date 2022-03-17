@@ -27,6 +27,49 @@ import { useSelector } from "react-redux";
 import RenderTemplate from "../Components/RenderTemplate";
 import NoPermission from "../Components/NoPermission";
 
+const editorConfiguration = {
+  toolbar: {
+    items: [
+      "heading",
+      "|",
+      "fontfamily",
+      "fontsize",
+      "|",
+      "alignment",
+      "|",
+      "fontColor",
+      "fontBackgroundColor",
+      "|",
+      "bold",
+      "italic",
+      "strikethrough",
+      "underline",
+      "subscript",
+      "superscript",
+      "|",
+      "link",
+      "|",
+      "outdent",
+      "indent",
+      "|",
+      "bulletedList",
+      "numberedList",
+      "todoList",
+      "|",
+      "code",
+      "codeBlock",
+      "|",
+      "insertTable",
+      "|",
+      "blockQuote",
+      "|",
+      "undo",
+      "redo",
+    ],
+    shouldNotGroupWhenFull: true,
+  },
+};
+
 function CreateUpdateHelp() {
   const history = useHistory();
   const { help_slug } = useParams();
@@ -59,7 +102,7 @@ function CreateUpdateHelp() {
       .then((resp) => {
         let _help = resp.data;
         createDonationForm.setValues(_help);
-        setIsOwner(_help.doner.id == user.id);
+        setIsOwner(parseInt(_help.doner.id) === parseInt(user.id));
         setTitle(`Edit ${_help.title}`);
       })
       .catch((err) => console.log(err.response))
@@ -261,9 +304,10 @@ function CreateUpdateHelp() {
                 />
               </Grid>
               <Grid item>
-                <FormControl>
+                <FormControl sx={{ width: "100%" }}>
                   <CKEditor
                     editor={ClassicEditor}
+                    config={editorConfiguration}
                     data={createDonationForm.values.description}
                     name="description"
                     onChange={(event, editor) => {

@@ -28,14 +28,18 @@ const MostLikedHelps = () => {
       <LinearProgress />
     </Container>
   ) : (
-    <Paper sx={{ marginY: 0, padding: 1 }}>
+    <Paper
+      sx={{
+        marginY: 0,
+        padding: 1,
+      }}
+    >
       <Typography variant="h5" align="center">
         Most Liked Helps
       </Typography>
       <Divider />
       <List
         sx={{
-          maxWidth: 360,
           bgcolor: "background.paper",
         }}
       >

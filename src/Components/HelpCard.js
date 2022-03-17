@@ -19,7 +19,6 @@ export default function HelpCard({ help, newState = false }) {
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex end",
         justifyContent: "space-between",
       }}
     >

@@ -8,6 +8,7 @@ import HelpCard from "../Components/HelpCard";
 import HelpFilter from "../Components/HelpFilter";
 import AxiosInstance from "../AxiosInstance";
 import CustomPagination from "../Components/CustomPagination";
+import CarouselSlider from "../Components/CarouselSlider";
 import {
   HELP_FILTER_HAS_SEARCH,
   HELP_FILTER_HAS_CATEGORY,
@@ -51,6 +52,7 @@ const HelpsList = () => {
       <Helmet>
         <title>Helps Available</title>
       </Helmet>
+      <CarouselSlider />
       <Container
         sx={{ marginBottom: "25vh", marginTop: "4vh", minWidth: "90vw" }}
       >
@@ -145,7 +147,7 @@ const HelpsList = () => {
               display: "flex",
               justifyContent: "flex-start",
               flexDirection: "column",
-              paddingy: 0,
+              paddingY: 0,
             }}
           >
             <MostLikedHelps />
