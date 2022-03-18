@@ -18,3 +18,7 @@ export const GetCategoryNameFromID = (id) => {
     })[0] || null
   );
 };
+
+export const isUserCustomer = (user) => {
+  return user.role == 2;
+};

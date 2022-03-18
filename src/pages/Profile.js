@@ -15,6 +15,7 @@ import {
   Paper,
   Avatar,
   MenuItem,
+  LinearProgress,
 } from "@mui/material";
 import { GENDERS } from "../redux/constants";
 import { useFormik } from "formik";
@@ -24,6 +25,7 @@ import { green } from "@mui/material/colors";
 import Fab from "@mui/material/Fab";
 import CheckIcon from "@mui/icons-material/Check";
 import SaveIcon from "@mui/icons-material/Save";
+import { isUserCustomer } from "../Components/Utils";
 
 const MyAccount = () => {
   const dispatch = useDispatch();
@@ -33,7 +35,25 @@ const MyAccount = () => {
 
   const genders = GENDERS;
 
-  const user = useSelector((state) => state.user);
+  const [user, setUser] = useState(useSelector((state) => state.user));
+
+  React.useEffect(() => {
+    if (!user) {
+      AxiosInstance.get("auth/user")
+        .then((resp) => {
+          let new_user_data = resp.data;
+          setUser(new_user_data);
+          dispatch(insert_user(new_user_data));
+          localStorage.setItem("user", JSON.stringify(new_user_data));
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, []);
 
   const buttonSx = {
     ...(success && {
@@ -51,12 +71,14 @@ const MyAccount = () => {
       Object.keys(values).forEach((key) => formData.append(key, values[key]));
       AxiosInstance.patch("auth/user/", formData)
         .then((resp) => {
-          setSuccess(true);
-          dispatch(insert_user(resp.data));
-          localStorage.setItem("user", JSON.stringify(resp.data));
+          let new_user_data = resp.data;
+          dispatch(insert_user(new_user_data));
+          setUser(new_user_data);
+          localStorage.setItem("user", JSON.stringify(new_user_data));
           toast.success("Profile Updated Successfully", {
             position: toast.POSITION.BOTTOM_CENTER,
           });
+          setSuccess(true);
         })
         .catch((err) => {
           setSuccess(false);
@@ -70,7 +92,15 @@ const MyAccount = () => {
       profileForm.setSubmitting(false);
     },
   });
-  return (
+  return loading ? (
+    <Container
+      component="main"
+      sx={{ padding: "0", marginY: 10 }}
+      id="loading-container"
+    >
+      <LinearProgress />
+    </Container>
+  ) : (
     <>
       <Container
         component="main"
@@ -78,7 +108,7 @@ const MyAccount = () => {
         sx={{ marginTop: 3, marginBottom: 8 }}
       >
         <Helmet>
-          <title>Profile | {user.email} | Sharing is Caring</title>
+          <title>Profile | {`${user.email}`} | Sharing is Caring</title>
         </Helmet>
         <Paper sx={{ padding: "1vh 2vw", border: "5px solid #39aa57" }}>
           <Box
@@ -198,7 +228,7 @@ const MyAccount = () => {
                 </TextField>
               </Grid>
               <Grid item xs={12} sm={12}>
-                {user.role === 2 ? (
+                {isUserCustomer(user) ? (
                   <TextField
                     id="dob"
                     name="dob"

@@ -27,6 +27,7 @@ const HelpsList = () => {
   const [loading, setLoading] = useState(true);
 
   const handleChangePage = (event, newPage) => {
+    window.scroll(0, 0);
     setPage(newPage);
   };
 
@@ -92,14 +93,6 @@ const HelpsList = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12} sx={{ marginY: 1 }}>
-              <CustomPagination
-                dataCount={dataCount}
-                rowsPerPage={limit}
-                page={page}
-                handleChangePage={handleChangePage}
-              />
-            </Grid>
           </Grid>
           <Grid
             container
@@ -119,21 +112,40 @@ const HelpsList = () => {
                 <LinearProgress />
               </Container>
             ) : (
-              donations.map((donation) => {
-                return (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    md={6}
-                    lg={4}
-                    xl={4}
-                    key={donation.id}
-                  >
-                    <HelpCard help={donation} />
-                  </Grid>
-                );
-              })
+              <>
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  lg={12}
+                  spacing={2}
+                  sx={{ marginY: 1, height: "min-content" }}
+                >
+                  {donations.map((donation) => {
+                    return (
+                      <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        md={6}
+                        lg={4}
+                        xl={4}
+                        key={donation.id}
+                      >
+                        <HelpCard help={donation} />
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={12} sx={{ marginY: 1 }}>
+                  <CustomPagination
+                    dataCount={dataCount}
+                    rowsPerPage={limit}
+                    page={page}
+                    handleChangePage={handleChangePage}
+                  />
+                </Grid>
+              </>
             )}
           </Grid>
           <Grid
