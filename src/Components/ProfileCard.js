@@ -11,8 +11,12 @@ const ProfileCard = ({ user }) => {
       <CardHeader
         avatar={
           <Avatar
-            sx={{ bgcolor: green[500], height: 80, width: 80 }}
-            aria-label={`${user.first_name} ${user.last_name}` || user.email}
+            sx={{
+              bgcolor: green[500],
+              height: 80,
+              width: 80,
+            }}
+            alt={`${user.first_name} ${user.last_name}` || user.email}
             src={host + user.avatar_path}
           ></Avatar>
         }

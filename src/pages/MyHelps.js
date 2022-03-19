@@ -65,7 +65,7 @@ const HelpsList = () => {
         </Typography>
         <Divider />
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={12} md={3} sx={{ marginY: 1 }}>
+          <Grid item xs={12} sm={12} md={3} sx={{ marginTop: 1 }}>
             <HelpFilter
               setActiveFilter={(query) => {
                 setActiveFilter(query);
@@ -77,38 +77,39 @@ const HelpsList = () => {
                 setCategoryFilter(query);
               }}
             />
-
-            <Box display="flex" justifyContent="flex-end">
+          </Grid>
+          <Grid container item xs={12} sm={12} md={9} spacing={2}>
+            <Grid
+              container
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              spacing={2}
+              sx={{ marginY: 1 }}
+            >
+              {loading ? (
+                <Container component="main" sx={{ padding: "0", marginY: 10 }}>
+                  <LinearProgress />
+                </Container>
+              ) : (
+                donations.map((donation) => {
+                  return (
+                    <Grid item xs={12} sm={4} md={4} lg={3} key={donation.id}>
+                      <HelpCard help={donation} />
+                    </Grid>
+                  );
+                })
+              )}
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} sx={{ marginY: 1 }}>
               <CustomPagination
                 dataCount={dataCount}
                 rowsPerPage={limit}
                 page={page}
                 handleChangePage={handleChangePage}
               />
-            </Box>
-          </Grid>
-          <Grid
-            container
-            item
-            xs={12}
-            sm={12}
-            md={9}
-            spacing={2}
-            sx={{ marginY: 1 }}
-          >
-            {loading ? (
-              <Container component="main" sx={{ padding: "0", marginY: 10 }}>
-                <LinearProgress />
-              </Container>
-            ) : (
-              donations.map((donation) => {
-                return (
-                  <Grid item xs={12} sm={4} md={4} lg={3} key={donation.id}>
-                    <HelpCard help={donation} />
-                  </Grid>
-                );
-              })
-            )}
+            </Grid>
           </Grid>
         </Grid>
       </Container>

@@ -80,7 +80,7 @@ const HelpDetail = () => {
         sx={{ width: "100%", margin: 0, p: 0, height: "500px" }}
         image="https://images.unsplash.com/photo-1640622658353-c6cecbe91488?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
       />
-      <Paper sx={{ padding: "10px", minHeight: "100vh" }}>
+      <Box sx={{ padding: "10px", minHeight: "100vh" }}>
         <Container
           component="main"
           sx={{ padding: "0" }}
@@ -114,13 +114,16 @@ const HelpDetail = () => {
             </Typography>
           )}
           <Typography align="left">
+            {help.likes.length > 0 && help.likes.length > 1
+              ? `${help.likes.length} Likes`
+              : `${help.likes.length} Like`}
             <DonationLikeShareAction help={help} />
           </Typography>
           <Grid container spacing={3} id="content-meta-box-container">
             <Grid item container sm={12} md={8} id="content-container">
               <Grid item container xs={12} sm={12} md={12} lg={12}>
                 <Grid item xs={12} sm={12} md={12} lg={12} id="main-content">
-                  <Paper sx={{ padding: 2, borderRadius: 3 }}>
+                  <Paper sx={{ padding: 2, borderRadius: 3, height: "100%" }}>
                     <Typography variant="h6" align="left">
                       Description:
                     </Typography>
@@ -234,7 +237,7 @@ const HelpDetail = () => {
             </Grid>
           </Grid>
         </Container>
-      </Paper>
+      </Box>
     </>
   ) : (
     <NoPermission />

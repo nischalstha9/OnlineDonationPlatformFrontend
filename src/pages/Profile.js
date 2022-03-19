@@ -110,7 +110,13 @@ const MyAccount = () => {
         <Helmet>
           <title>Profile | {`${user.email}`} | Sharing is Caring</title>
         </Helmet>
-        <Paper sx={{ padding: "1vh 2vw", border: "5px solid #39aa57" }}>
+        <Paper
+          sx={{
+            padding: "1vh 2vw",
+            border: "5px solid",
+            borderColor: "primary.main",
+          }}
+        >
           <Box
             sx={{
               marginTop: 8,
@@ -122,7 +128,13 @@ const MyAccount = () => {
             <Avatar
               alt={user.email}
               src={host + user.avatar_path}
-              sx={{ height: 200, width: 200 }}
+              sx={{
+                height: 200,
+                width: 200,
+                border: "10px solid",
+                borderColor: "primary.main",
+                margin: 5,
+              }}
             ></Avatar>
             <TextField
               type="file"

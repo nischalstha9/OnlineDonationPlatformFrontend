@@ -38,7 +38,7 @@ function App() {
     <div>
       <Carousel
         data={data}
-        time={10000}
+        time={5000}
         width="100vw"
         height="60vh"
         captionStyle={captionStyle}

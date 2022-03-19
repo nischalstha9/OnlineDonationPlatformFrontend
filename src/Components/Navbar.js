@@ -136,7 +136,10 @@ const Navbar = ({ isAuthenticated }) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="User Actions">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={user.email} src={host + user.avatar_path} />
+                <Avatar
+                  alt={user.first_name || user.email}
+                  src={host + user.avatar_path}
+                />
               </IconButton>
             </Tooltip>
             <Menu

@@ -36,7 +36,12 @@ const Logout = () => {
         <title>Sharing is Caring | Login</title>
       </Helmet>
       <Paper
-        sx={{ padding: "1vh 2vw", border: "5px solid #39aa57", paddingY: 15 }}
+        sx={{
+          padding: "1vh 2vw",
+          border: "5px solid",
+          borderColor: "primary.main",
+          paddingY: 15,
+        }}
       >
         <Box
           sx={{

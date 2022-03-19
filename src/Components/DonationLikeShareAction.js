@@ -23,16 +23,18 @@ const DonationLikeShareAction = ({ help, newState = false }) => {
   };
   return (
     <Grid>
-      <Typography sx={{ display: "inline" }}>
+      {/* <Typography sx={{ display: "inline" }}>
         {likeCount > 1 ? likeCount : ""}
-      </Typography>
+      </Typography> */}
       <IconButton
         aria-label="like"
         onClick={changeLikeState}
         disabled={!Boolean(userId)}
       >
         {liked ? (
-          <FavoriteIcon sx={{ color: liked ? "#456dfa" : "" }}></FavoriteIcon>
+          <FavoriteIcon
+            sx={{ color: liked ? "likeBtn.liked" : "" }}
+          ></FavoriteIcon>
         ) : (
           <FavoriteBorderOutlinedIcon></FavoriteBorderOutlinedIcon>
         )}

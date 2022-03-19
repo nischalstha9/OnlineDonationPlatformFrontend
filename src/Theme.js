@@ -4,14 +4,21 @@ const Theme = createTheme({
   palette: {
     type: "light",
     primary: {
-      main: "#39aa57",
+      main: "#2496ed", //#2496ed
     },
     secondary: {
-      main: "#80c4a2",
+      main: "#2294ea", //80c4a2
     },
     background: {
       default: "#f0f2f5",
       paper: "#ffffff",
+    },
+    danger: {
+      main: "#ff0a0a",
+    },
+    likeBtn: {
+      main: "#456dfa",
+      liked: "#456dfa",
     },
   },
   props: {
