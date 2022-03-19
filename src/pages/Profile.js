@@ -131,7 +131,7 @@ const MyAccount = () => {
               sx={{
                 height: 200,
                 width: 200,
-                border: "10px solid",
+                border: "8px solid",
                 borderColor: "primary.main",
                 margin: 5,
               }}

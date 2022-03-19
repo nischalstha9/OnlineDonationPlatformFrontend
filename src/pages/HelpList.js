@@ -27,7 +27,7 @@ const HelpsList = () => {
   const [loading, setLoading] = useState(true);
 
   const handleChangePage = (event, newPage) => {
-    window.scroll(0, 0);
+    window.scroll(0, 500);
     setPage(newPage);
   };
 
@@ -57,7 +57,7 @@ const HelpsList = () => {
       <Container
         sx={{ marginBottom: "25vh", marginTop: "4vh", minWidth: "90vw" }}
       >
-        <Typography variant="h3" sx={{ marginBottom: "2vh" }} align="right">
+        <Typography variant="h3" sx={{ marginBottom: "2vh" }} align="center">
           {searchQuery !== ""
             ? `Search Results for "${searchQuery}"`
             : "Helps Available"}
