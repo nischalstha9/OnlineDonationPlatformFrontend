@@ -93,6 +93,7 @@ const HelpDetail = () => {
             align="right"
           >
             {help.title}
+            <Divider />
           </Typography>
           {help.doner.id === user.id && (
             <Typography variant="subtitle2" align="right">
@@ -134,6 +135,8 @@ const HelpDetail = () => {
                       sx={{
                         textAlign: "justify",
                         textJustify: "inter-word",
+                        maxHeight: "80vh",
+                        overflowY: "scroll",
                       }}
                     >
                       {help.description && parse(help.description)}
@@ -211,7 +214,10 @@ const HelpDetail = () => {
                       {`- Last Updated: ${parseDate(help.updated_at)}`}
                     </Typography>
                     <Typography variant="subtitle2" align="left">
-                      {`- Contact: ${help.contact}`}
+                      {`- Referred Contact: ${help.contact}`}
+                    </Typography>
+                    <Typography variant="subtitle2" align="left">
+                      {`- Doner's Contact: ${help.doner.phone}`}
                     </Typography>
                     <Typography variant="subtitle2" align="left">
                       {`- Location: ${help.location}`}

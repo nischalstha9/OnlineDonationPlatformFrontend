@@ -33,7 +33,7 @@ export default function CategoriesDropdown({
           label="Category"
           onChange={handleChange}
         >
-          <MenuItem value={""}>All Categories</MenuItem>;
+          <MenuItem value={""}>Select Category</MenuItem>;
           {categories &&
             categories.map((category) => {
               return (

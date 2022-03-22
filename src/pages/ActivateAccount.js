@@ -1,7 +1,5 @@
 import { React } from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -10,14 +8,12 @@ import Container from "@mui/material/Container";
 import { useFormik } from "formik";
 import AxiosInstance from "../AxiosInstance";
 import Paper from "@mui/material/Paper";
-import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet";
 import { useQuery } from "../Components/Utils";
 
 export default function ActivateAccount() {
-  const dispatch = useDispatch();
   const history = useHistory();
   const query = useQuery();
 
@@ -51,7 +47,13 @@ export default function ActivateAccount() {
       <Helmet>
         <title>Sharing is Caring | Activate Account</title>
       </Helmet>
-      <Paper sx={{ padding: "1vh 2vw", border: "5px solid #39aa57" }}>
+      <Paper
+        sx={{
+          padding: "1vh 2vw",
+          border: "5px solid",
+          borderColor: "primary.main",
+        }}
+      >
         <Box
           sx={{
             marginTop: 8,
@@ -74,6 +76,7 @@ export default function ActivateAccount() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2, color: "white" }}
+              onClick={activateAccountForm.handleSubmit}
               disabled={activateAccountForm.isSubmitting}
             >
               Activate
@@ -81,11 +84,6 @@ export default function ActivateAccount() {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 Need an account? <Link to="/signup">Sign Up</Link>
-              </Grid>
-            </Grid>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link to="/forget-password">Forget Password?</Link>
               </Grid>
             </Grid>
           </Box>

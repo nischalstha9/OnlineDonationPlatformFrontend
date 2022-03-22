@@ -13,6 +13,9 @@ import {
   FormControl,
   FormHelperText,
   LinearProgress,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { useFormik } from "formik";
 import CategoriesDropdown from "../Components/CategoriesDropdown";
@@ -74,6 +77,7 @@ function CreateUpdateHelp() {
   const history = useHistory();
   const { help_slug } = useParams();
   const user = useSelector((state) => state.user);
+  const categories = useSelector((state) => state.categories);
   const [isOwner, setIsOwner] = useState(false);
   const [title, setTitle] = useState("Create New Help");
   const [loading, setLoading] = useState(true);
@@ -258,25 +262,6 @@ function CreateUpdateHelp() {
                 />
               </Grid>
               <Grid item>
-                {/* <FormControl fullWidth>
-                <InputLabel id="categoryLabel">Category</InputLabel>
-                <Select
-                  labelId="categoryLabel"
-                  id="category"
-                  value={createDonationForm.values.category}
-                  label="Category"
-                  onChange={createDonationForm.handleChange}
-                >
-                  <MenuItem value={""}>All Categories</MenuItem>;
-                  {categories.map((category) => {
-                    return (
-                      <MenuItem value={category.id} key={category.id}>
-                        {category.name}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl> */}
                 <CategoriesDropdown
                   setCategoryFilter={(category) => {
                     createDonationForm.setFieldValue("category", category);

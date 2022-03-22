@@ -33,8 +33,8 @@ const Routes = ({ isAuthenticated }) => {
       <Navbar isAuthenticated={isAuthenticated} />
       <CssBaseline />
       <ScrollToTop />
-      <Switch>
-        <Box sx={{ minHeight: "90vh" }}>
+      <Box sx={{ minHeight: "90vh" }}>
+        <Switch>
           <Route exact path="/" component={HelpList} />
           <Route exact path="/about" component={About} />
           <Route exact path="/signup" component={SignUp} />
@@ -61,11 +61,11 @@ const Routes = ({ isAuthenticated }) => {
           />
           <PrivateRoute exact path="/my-helps" component={MyHelps} />
           <PrivateRoute exact path="/my-liked-helps" component={LikedHelps} />
-          <PrivateRoute exact path="/logout" component={Logout} />
+          <Route exact path="/logout" component={Logout} />
           <PrivateRoute exact path="/profile" component={Profile} />
-        </Box>
-        <Route path="*" component={NOT_FOUND} />
-      </Switch>
+          <Route component={NOT_FOUND} />
+        </Switch>
+      </Box>
       <Footer />
     </Router>
   );

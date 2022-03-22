@@ -67,7 +67,13 @@ export default function Login() {
       <Helmet>
         <title>Set New Password | Sharing is Caring</title>
       </Helmet>
-      <Paper sx={{ padding: "1vh 2vw", border: "5px solid #39aa57" }}>
+      <Paper
+        sx={{
+          padding: "1vh 2vw",
+          border: "5px solid",
+          borderColor: "primary.main",
+        }}
+      >
         <Box
           sx={{
             marginTop: 8,

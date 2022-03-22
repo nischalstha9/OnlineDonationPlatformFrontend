@@ -43,10 +43,7 @@ export default function Login() {
                 userData.first_name.length > 0
                   ? `${userData.first_name} ${userData.last_name}`
                   : userData.email
-              }`,
-              {
-                position: toast.POSITION.BOTTOM_CENTER,
-              }
+              }`
             );
             localStorage.setItem("user", JSON.stringify(userData));
             dispatch(log_in());
