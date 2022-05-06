@@ -1,64 +1,197 @@
-import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import ProfileCard from "./ProfileCard";
+import { host } from "../AxiosInstance";
 
-const Navbar = () => {
+const UserMenu = [
+  { name: "Create New Help", to: "/create-help" },
+  { name: "My Helps", to: "/my-helps" },
+  { name: "Favorite Helps", to: "/my-liked-helps" },
+  { name: "Logout", to: "/logout" },
+];
+
+const NavMenu = [
+  { name: "Helps", to: "/helps" },
+  { name: "Categories", to: "/categories" },
+];
+
+const Navbar = ({ isAuthenticated }) => {
+  const authenticated = isAuthenticated;
+  const user = useSelector((state) => state.user);
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   return (
-    <div>
-      <nav
-        className="navbar navbar-expand-lg navbar-light bg-light"
-        style={{ backgroundColor: "#e3f2fd" }}
-      >
-        <div className="container-fluid">
-          <NavLink className="navbar-brand" to="/">
-            Sharing is Caring
-          </NavLink>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+    <AppBar position="sticky" sx={{ color: "#fff", paddingX: "10px" }}>
+      <Toolbar disableGutters>
+        <Typography
+          variant="h6"
+          noWrap
+          component={Link}
+          to="/"
+          sx={{
+            mr: 2,
+            display: { xs: "none", md: "flex" },
+            color: "white",
+            textDecoration: "none",
+          }}
+        >
+          Sharing is Caring
+        </Typography>
+        <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleOpenNavMenu}
+            color="inherit"
           >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <NavLink
-                  className="nav-link"
-                  to="/about"
-                  activeClassName="active"
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorElNav}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            open={Boolean(anchorElNav)}
+            onClose={handleCloseNavMenu}
+            sx={{
+              display: { xs: "block", md: "none" },
+            }}
+          >
+            {NavMenu.map((menu) => {
+              return (
+                <MenuItem
+                  key={menu.name}
+                  onClick={handleCloseNavMenu}
+                  component={Link}
+                  to={menu.to}
                 >
-                  About
-                </NavLink>
-              </li>
-            </ul>
-            <form className="d-flex">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button className="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
-            <div className="btn-group mx-4 d-flex">
-              <Link to="/login" className="btn btn-outline-success">
-                Login
-              </Link>
-              <Link to="/signup" className="btn btn-warning">
-                Signup
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-    </div>
+                  <Typography textAlign="center">{menu.name}</Typography>
+                </MenuItem>
+              );
+            })}
+          </Menu>
+        </Box>
+        <Typography
+          variant="h6"
+          noWrap
+          component={Link}
+          to="/"
+          sx={{
+            mr: 2,
+            color: "white",
+            textDecoration: "none",
+            flexGrow: 1,
+            display: { xs: "flex", md: "none" },
+          }}
+        >
+          Sharing is Caring
+        </Typography>
+        <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          {NavMenu.map((menu) => {
+            return (
+              <Button component={Link} to={menu.to} sx={{ color: "white" }}>
+                {menu.name}
+              </Button>
+            );
+          })}
+        </Box>
+        {authenticated ? (
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="User Actions">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar
+                  alt={user.first_name || user.email}
+                  src={host + user.avatar_path}
+                />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <MenuItem
+                onClick={handleCloseUserMenu}
+                component={Link}
+                to={"/profile"}
+              >
+                <ProfileCard user={user} />
+              </MenuItem>
+              {UserMenu.map((btn) => (
+                <MenuItem
+                  key={btn.name}
+                  onClick={handleCloseUserMenu}
+                  component={Link}
+                  to={btn.to}
+                >
+                  <Typography textAlign="center">{btn.name}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        ) : (
+          <Box sx={{ flexGrow: 0 }}>
+            <Button
+              sx={{ ml: 4, color: "white" }}
+              color="secondary"
+              component={Link}
+              to="/login"
+              variant="outlined"
+            >
+              Login
+            </Button>
+          </Box>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 };
-
 export default Navbar;

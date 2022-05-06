@@ -14,44 +14,43 @@ import AxiosInstance from "../AxiosInstance";
 import Paper from "@mui/material/Paper";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { log_in, insert_user } from "../redux/action";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet";
+import { useQuery } from "../Components/Utils";
 
 export default function Login() {
-  const dispatch = useDispatch();
   const history = useHistory();
-  const LoginSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email address!").required("Required"),
-    password: Yup.string().required("Password cannot be empty!"),
+  const query = useQuery();
+
+  const passwordSetSchema = Yup.object().shape({
+    new_password1: Yup.string()
+      .min(8, "Your password length must be atlease 8 and alphanumeric")
+      .required("Password cannot be empty!"),
+    new_password2: Yup.string()
+      .required("Enter Your Password Again!")
+      .test("matchPassword", "Both passwords must match!", (value) => {
+        return value === passwordSetForm.values.new_password1;
+      }),
   });
 
-  const loginForm = useFormik({
+  const passwordSetForm = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      token: query.get("token"),
+      identifier: query.get("identifier"),
+      type: 1,
+      new_password1: "",
+      new_password2: "",
     },
     onSubmit: (values, { setSubmitting }) => {
-      AxiosInstance.post("/auth/token/obtain/", values)
+      AxiosInstance.post("/auth/user/password/reset/", values)
         .then((resp) => {
-          localStorage.setItem("access_token", resp.data.access);
-          AxiosInstance("auth/user/").then((resp) => {
-            let userData = resp.data;
-            dispatch(insert_user(userData));
-            toast.success(
-              `Welcome ${
-                userData.first_name.length > 0
-                  ? `${userData.first_name} ${userData.last_name}`
-                  : userData.email
-              }`,
-              {
-                position: toast.POSITION.BOTTOM_CENTER,
-              }
-            );
-            localStorage.setItem("user", JSON.stringify(userData));
-            dispatch(log_in());
-          });
-          history.push("/helps");
+          toast.success(
+            "Your password has been reset successfully. You can login now.",
+            {
+              position: toast.POSITION.BOTTOM_CENTER,
+            }
+          );
+          history.push("/login");
         })
         .catch((err) => {
           toast.error(Object.values(err.response.data)[0][0], {
@@ -59,21 +58,16 @@ export default function Login() {
           });
         });
       setSubmitting(false);
+      passwordSetForm.resetForm();
     },
-    validationSchema: LoginSchema,
+    validationSchema: passwordSetSchema,
   });
   return (
     <Container component="main" maxWidth="sm" sx={{ marginTop: "15vh" }}>
       <Helmet>
-        <title>Sharing is Caring | Login</title>
+        <title>Set New Password | Sharing is Caring</title>
       </Helmet>
-      <Paper
-        sx={{
-          padding: "1vh 2vw",
-          border: "5px solid",
-          borderColor: "primary.main",
-        }}
-      >
+      <Paper sx={{ padding: "1vh 2vw", border: "5px solid #39aa57" }}>
         <Box
           sx={{
             marginTop: 8,
@@ -86,38 +80,48 @@ export default function Login() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Login
+            Reset Password
           </Typography>
           <Box component="form" noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  autoFocus
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  onChange={loginForm.handleChange}
-                  value={loginForm.values.email}
+                  name="new_password1"
+                  label="Password"
+                  type="password"
+                  id="new_password1"
+                  onChange={passwordSetForm.handleChange}
+                  value={passwordSetForm.values.new_password1}
                   error={
-                    loginForm.touched.email && Boolean(loginForm.errors.email)
+                    passwordSetForm.touched.new_password1 &&
+                    Boolean(passwordSetForm.errors.new_password1)
                   }
-                  helperText={loginForm.touched.email && loginForm.errors.email}
+                  helperText={
+                    passwordSetForm.touched.new_password1 &&
+                    passwordSetForm.errors.new_password1
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="password"
-                  label="Password"
+                  name="new_password2"
+                  label="Confirm Password"
                   type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  onChange={loginForm.handleChange}
-                  value={loginForm.values.password}
+                  id="new_password2"
+                  onChange={passwordSetForm.handleChange}
+                  value={passwordSetForm.values.new_password2}
+                  error={
+                    passwordSetForm.touched.new_password2 &&
+                    Boolean(passwordSetForm.errors.new_password2)
+                  }
+                  helperText={
+                    passwordSetForm.touched.new_password2 &&
+                    passwordSetForm.errors.new_password2
+                  }
                 />
               </Grid>
             </Grid>
@@ -125,11 +129,12 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
+              color="secondary"
               sx={{ mt: 3, mb: 2, color: "white" }}
-              onClick={loginForm.handleSubmit}
-              disabled={loginForm.isSubmitting || !loginForm.isValid}
+              onClick={passwordSetForm.handleSubmit}
+              disabled={passwordSetForm.isSubmitting}
             >
-              Login
+              Save new password
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
