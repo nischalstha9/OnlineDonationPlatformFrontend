@@ -12,6 +12,7 @@ import Logout from "../pages/Logout";
 import HelpList from "../pages/HelpList";
 import HelpDetail from "../pages/HelpDetail";
 import MyHelps from "../pages/MyHelps";
+import UsersHelps from "../pages/UsersHelps";
 import CreateUpdateHelp from "../pages/CreateUpdateHelp";
 import { ToastContainer, toast } from "react-toastify";
 import NOT_FOUND from "../pages/404";
@@ -44,6 +45,8 @@ const Routes = ({ isAuthenticated }) => {
           <Route exact path="/help-detail/:help_slug" component={HelpDetail} />
           <Route exact path="/forget-password" component={ForgetPassword} />
           <Route exact path="/forget" component={SetNewPassword} />
+          <Route exact path="/user-helps/:user_id" component={UsersHelps} />
+          <PrivateRoute exact path="/my-helps" component={MyHelps} />
           <PrivateRoute
             exact
             path="/delete-help/:help_slug"
@@ -59,7 +62,6 @@ const Routes = ({ isAuthenticated }) => {
             path="/edit-help/:help_slug"
             component={CreateUpdateHelp}
           />
-          <PrivateRoute exact path="/my-helps" component={MyHelps} />
           <PrivateRoute exact path="/my-liked-helps" component={LikedHelps} />
           <Route exact path="/logout" component={Logout} />
           <PrivateRoute exact path="/profile" component={Profile} />

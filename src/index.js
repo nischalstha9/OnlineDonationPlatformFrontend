@@ -10,8 +10,8 @@ import { createStore } from "redux";
 import "react-toastify/dist/ReactToastify.css";
 
 const store = createStore(
-  allReducers
-  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  allReducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 ReactDOM.render(

@@ -201,6 +201,12 @@ const HelpDetail = () => {
                     Helper Information
                     <Divider />
                     <ProfileCard user={help.doner} />
+                    <Button
+                      component={Link}
+                      to={`/user-helps/${help.doner.id}`}
+                    >
+                      More from {help.doner.first_name}
+                    </Button>
                     <Divider />
                   </Typography>
                   <Box sx={{ marginY: 3 }}>

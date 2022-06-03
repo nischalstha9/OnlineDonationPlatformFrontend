@@ -9,21 +9,31 @@ import {
   LinearProgress,
   Container,
   Divider,
+  Paper,
+  Box,
 } from "@mui/material";
 // import { useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { HELP_PAGINATION_ITEM_LIMIT } from "../redux/constants";
+import {
+  HELP_FILTER_HAS_SEARCH,
+  HELP_FILTER_HAS_CATEGORY,
+  HELP_PAGINATION_ITEM_LIMIT,
+} from "../redux/constants";
+import { useParams } from "react-router-dom";
+import ProfileCard from "../Components/ProfileCard";
+import CallIcon from "@mui/icons-material/Call";
 
 const HelpsList = () => {
   // const history = useHistory();
   const [donations, setDonations] = React.useState([]);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [categoryFilter, setCategoryFilter] = React.useState("");
-  const [activeFilter, setActiveFilter] = React.useState("");
   const [page, setPage] = React.useState(0);
   const [dataCount, setDataCount] = React.useState(0);
   const limit = HELP_PAGINATION_ITEM_LIMIT;
   const [loading, setLoading] = useState(true);
+  const { user_id } = useParams();
+  const [user, setUser] = useState(null);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -31,12 +41,21 @@ const HelpsList = () => {
 
   useEffect(() => {
     setLoading(true);
+    AxiosInstance.get(`auth/doner/info/${user_id}`)
+      .then((resp) => {
+        setUser(resp.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [user_id]);
+
+  useEffect(() => {
+    setLoading(true);
     AxiosInstance.get(
-      `/donation/my-donations/?search=${searchQuery}&category=${
+      `/donation/user-donations/${user_id}/?search=${searchQuery}&category=${
         categoryFilter || ""
-      }&limit=${limit}&offset=${
-        page * limit
-      }&ordering=-created_at&active=${activeFilter}`
+      }&limit=${limit}&offset=${page * limit}&ordering=-created_at`
     )
       .then((resp) => {
         setDonations(resp.data.results);
@@ -46,12 +65,14 @@ const HelpsList = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [searchQuery, categoryFilter, page, limit, activeFilter]);
+  }, [searchQuery, categoryFilter, page, limit]);
 
   return (
     <>
       <Helmet>
-        <title>My Helps</title>
+        <title>
+          Helps by {user !== null ? user.first_name + " " + user.last_name : ""}
+        </title>
       </Helmet>
       <Container
         sx={{ marginBottom: "25vh", marginTop: "4vh", minWidth: "90vw" }}
@@ -59,15 +80,15 @@ const HelpsList = () => {
         <Typography variant="h3" sx={{ marginBottom: "2vh" }} align="right">
           {searchQuery !== ""
             ? `Search Results for "${searchQuery}"`
-            : "My Helps"}
+            : `Helps by User: ${
+                user !== null ? user?.first_name + " " + user?.last_name : ""
+              }`}
         </Typography>
         <Divider />
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={3} sx={{ marginTop: 1 }}>
             <HelpFilter
-              setActiveFilter={(query) => {
-                setActiveFilter(query);
-              }}
+              filtersList={[HELP_FILTER_HAS_CATEGORY, HELP_FILTER_HAS_SEARCH]}
               setSearchQuery={(query) => {
                 setSearchQuery(query);
               }}
@@ -76,7 +97,7 @@ const HelpsList = () => {
               }}
             />
           </Grid>
-          <Grid container item xs={12} sm={12} md={9} spacing={2}>
+          <Grid container item xs={12} sm={12} md={6} spacing={2}>
             <Grid
               container
               item
@@ -93,7 +114,7 @@ const HelpsList = () => {
               ) : donations.length > 0 ? (
                 donations.map((donation) => {
                   return (
-                    <Grid item xs={12} sm={4} md={4} lg={3} key={donation.id}>
+                    <Grid item xs={12} sm={4} md={4} lg={4} key={donation.id}>
                       <HelpCard help={donation} />
                     </Grid>
                   );
@@ -114,6 +135,32 @@ const HelpsList = () => {
                 handleChangePage={handleChangePage}
               />
             </Grid>
+          </Grid>
+          <Grid item xs={12} sm={12} md={3} sx={{ marginTop: 1 }}>
+            {user && (
+              <Paper sx={{ padding: 2, borderRadius: 3 }}>
+                <Grid item xs={12} sm={12} md={12}>
+                  <Typography variant="h6" align="right">
+                    Doner Information
+                    <Divider />
+                    <ProfileCard user={user} />
+                    <Divider />
+                  </Typography>
+                  <Box sx={{ marginY: 3 }}>
+                    <Box sx={{ display: "flex" }}>
+                      <CallIcon sx={{ marginX: 1 }} />
+                      <Typography
+                        variant="subtitle"
+                        align="left"
+                        justify="center"
+                      >
+                        {`Contact: ${user.phone}`}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Grid>
+              </Paper>
+            )}
           </Grid>
         </Grid>
       </Container>
