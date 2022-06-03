@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
+import Box from "@mui/material/Box";
 import HelpCard from "../Components/HelpCard";
 import HelpFilter from "../Components/HelpFilter";
 import AxiosInstance from "../AxiosInstance";
@@ -16,6 +17,7 @@ import {
 } from "../redux/constants";
 import { Helmet } from "react-helmet";
 import MostLikedHelps from "../Components/MostLikedHelps";
+import TopCategories from "../Components/TopCategories";
 
 const HelpsList = () => {
   const [donations, setDonations] = React.useState([]);
@@ -51,7 +53,7 @@ const HelpsList = () => {
   return (
     <>
       <Helmet>
-        <title>Helps Available</title>
+        <title>Helps Available | Sharing is Caring</title>
       </Helmet>
       <CarouselSlider />
       <Container
@@ -121,21 +123,29 @@ const HelpsList = () => {
                   spacing={2}
                   sx={{ marginY: 1, height: "min-content" }}
                 >
-                  {donations.map((donation) => {
-                    return (
-                      <Grid
-                        item
-                        xs={12}
-                        sm={6}
-                        md={6}
-                        lg={4}
-                        xl={4}
-                        key={donation.id}
-                      >
-                        <HelpCard help={donation} />
-                      </Grid>
-                    );
-                  })}
+                  {donations.length > 0 ? (
+                    donations.map((donation) => {
+                      return (
+                        <Grid
+                          item
+                          xs={12}
+                          sm={6}
+                          md={6}
+                          lg={4}
+                          xl={4}
+                          key={donation.id}
+                        >
+                          <HelpCard help={donation} />
+                        </Grid>
+                      );
+                    })
+                  ) : (
+                    <Grid item xs={12} xl={12}>
+                      <Typography variant="subtitle1" align="center">
+                        -- No items for selected filter ☹️--
+                      </Typography>
+                    </Grid>
+                  )}
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12} sx={{ marginY: 1 }}>
                   <CustomPagination
@@ -162,7 +172,20 @@ const HelpsList = () => {
               paddingY: 0,
             }}
           >
-            <MostLikedHelps />
+            <Box>
+              <MostLikedHelps />
+            </Box>
+            <Box xs={12} md={12} xl={12} sx={{ marginTop: 3 }}>
+              <Typography
+                variant="h6"
+                align="left"
+                sx={{ textAlign: "justify", textJustify: "inter-word" }}
+              >
+                Categories
+              </Typography>
+              <Divider />
+              <TopCategories />
+            </Box>
           </Grid>
         </Grid>
       </Container>

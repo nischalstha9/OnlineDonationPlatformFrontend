@@ -1,6 +1,10 @@
 import axios from "axios";
+// import "dotenv/config";
+
+// console.log(process.env);
 
 export const host = "http://127.0.0.1:8000";
+// export const host = process.env.API_HOST;
 // export const host = "http://139.59.67.104:9798";
 const baseURL = host + "/api/v1/";
 const AxiosInstance = axios.create({

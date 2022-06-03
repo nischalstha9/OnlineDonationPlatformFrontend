@@ -66,8 +66,8 @@ export default function ActivateAccount() {
           <Box component="form" noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h5">
-                  Click button below to activate your account.
+                <Typography variant="p" align="center">
+                  Click button below to activate your account
                 </Typography>
               </Grid>
             </Grid>
@@ -81,11 +81,6 @@ export default function ActivateAccount() {
             >
               Activate
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                Need an account? <Link to="/signup">Sign Up</Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Paper>

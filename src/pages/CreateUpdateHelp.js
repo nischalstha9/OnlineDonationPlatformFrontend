@@ -13,21 +13,16 @@ import {
   FormControl,
   FormHelperText,
   LinearProgress,
-  InputLabel,
-  Select,
-  MenuItem,
 } from "@mui/material";
 import { useFormik } from "formik";
 import CategoriesDropdown from "../Components/CategoriesDropdown";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import parse from "html-react-parser";
 import AxiosInstance from "../AxiosInstance";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-import RenderTemplate from "../Components/RenderTemplate";
 import NoPermission from "../Components/NoPermission";
 
 const editorConfiguration = {
@@ -77,7 +72,6 @@ function CreateUpdateHelp() {
   const history = useHistory();
   const { help_slug } = useParams();
   const user = useSelector((state) => state.user);
-  const categories = useSelector((state) => state.categories);
   const [isOwner, setIsOwner] = useState(false);
   const [title, setTitle] = useState("Create New Help");
   const [loading, setLoading] = useState(true);
@@ -176,9 +170,10 @@ function CreateUpdateHelp() {
 
   const createDonationForm = useFormik({
     initialValues: formInitialValues,
-    onSubmit: (values, { isSubmitting }) => {
+    onSubmit: (values, { setSubmitting }) => {
       help_slug ? HandleUpdate(values) : HandleCreate(values);
       createDonationForm.setSubmitting(false);
+      setSubmitting(false);
     },
     validationSchema: DonationFormValidationSchema,
   });
@@ -187,7 +182,7 @@ function CreateUpdateHelp() {
       <LinearProgress />
     </Container>
   ) : (
-    <Container sx={{ minWidth: "90vw" }}>
+    <Container>
       <Helmet>
         <title>{title} | Sharing is Caring</title>
       </Helmet>
@@ -201,31 +196,6 @@ function CreateUpdateHelp() {
           </Typography>
           <Divider />
           <Grid container item spacing={2}>
-            {/* <Grid
-            item
-            sm={12}
-            md={6}
-            lg={6}
-            xl={6}
-            sx={{ marginTop: "10px", padding: "15px" }}
-          >
-            <RenderTemplate />
-            <Typography variant="h6">
-              {createDonationForm.values.title}
-            </Typography>
-            <Typography variant="p">
-              Category: {createDonationForm.values.category}
-            </Typography>
-            <Typography variant="p">
-              Description: {parse(createDonationForm.values.description)}
-              location: {parse(createDonationForm.values.location)}
-              contact: {parse(createDonationForm.values.contact)}
-              active:{" "}
-              {parse(
-                createDonationForm.values.active === true ? "true" : "false"
-              )}
-            </Typography>
-          </Grid> */}
             <Grid
               item
               container
@@ -263,6 +233,11 @@ function CreateUpdateHelp() {
               </Grid>
               <Grid item>
                 <CategoriesDropdown
+                  categoryValue={
+                    (createDonationForm &&
+                      createDonationForm.values.category) ||
+                    ""
+                  }
                   setCategoryFilter={(category) => {
                     createDonationForm.setFieldValue("category", category);
                   }}
@@ -300,6 +275,9 @@ function CreateUpdateHelp() {
                         "description",
                         editor.getData()
                       );
+                    }}
+                    onReady={(editor) => {
+                      editor.ui.view.editable.element.style.minHeight = "250px";
                     }}
                   />
                   <FormHelperText id="my-helper-text" sx={{ color: "#d32f2f" }}>

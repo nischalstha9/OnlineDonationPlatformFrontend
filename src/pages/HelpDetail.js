@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
-  Avatar,
   Grid,
   Typography,
   Container,
   Paper,
-  CardMedia,
   Divider,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
   LinearProgress,
   Button,
   Box,
@@ -27,6 +21,12 @@ import MostLikedHelps from "../Components/MostLikedHelps";
 import TopCategories from "../Components/TopCategories";
 import NoPermission from "../Components/NoPermission";
 import HelpCard from "../Components/HelpCard";
+import CallIcon from "@mui/icons-material/Call";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import AddIcCallIcon from "@mui/icons-material/AddIcCall";
+import CategoryIcon from "@mui/icons-material/Category";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 
 const HelpDetail = () => {
   const user = useSelector((state) => state.user);
@@ -75,11 +75,11 @@ const HelpDetail = () => {
       <Helmet>
         <title>{help.title} | Sharing is Caring</title>
       </Helmet>
-      <CardMedia
+      {/* <CardMedia
         component="img"
         sx={{ width: "100%", margin: 0, p: 0, height: "500px" }}
         image="https://images.unsplash.com/photo-1640622658353-c6cecbe91488?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-      />
+      /> */}
       <Box sx={{ padding: "10px", minHeight: "100vh" }}>
         <Container
           component="main"
@@ -204,24 +204,66 @@ const HelpDetail = () => {
                     <Divider />
                   </Typography>
                   <Box sx={{ marginY: 3 }}>
-                    <Typography variant="subtitle2" align="left">
-                      {`- Category: ${help.category_name}`}
-                    </Typography>
-                    <Typography variant="subtitle2" align="left">
-                      {`- Created: ${parseDate(help.created_at)}`}
-                    </Typography>
-                    <Typography variant="subtitle2" align="left">
-                      {`- Last Updated: ${parseDate(help.updated_at)}`}
-                    </Typography>
-                    <Typography variant="subtitle2" align="left">
-                      {`- Referred Contact: ${help.contact}`}
-                    </Typography>
-                    <Typography variant="subtitle2" align="left">
-                      {`- Doner's Contact: ${help.doner.phone}`}
-                    </Typography>
-                    <Typography variant="subtitle2" align="left">
-                      {`- Location: ${help.location}`}
-                    </Typography>
+                    <Box sx={{ display: "flex" }}>
+                      <CategoryIcon sx={{ marginX: 1 }} />
+                      <Typography
+                        variant="subtitle"
+                        align="left"
+                        justify="center"
+                      >
+                        {`Category: ${help.category_name}`}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: "flex" }}>
+                      <CalendarMonthOutlinedIcon sx={{ marginX: 1 }} />
+                      <Typography
+                        variant="subtitle"
+                        align="left"
+                        justify="center"
+                      >
+                        {`Created: ${parseDate(help.created_at)}`}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: "flex" }}>
+                      <CalendarMonthIcon sx={{ marginX: 1 }} />
+                      <Typography
+                        variant="subtitle"
+                        align="left"
+                        justify="center"
+                      >
+                        {`Last Updated: ${parseDate(help.updated_at)}`}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: "flex" }}>
+                      <CallIcon sx={{ marginX: 1 }} />
+                      <Typography
+                        variant="subtitle"
+                        align="left"
+                        justify="center"
+                      >
+                        {`Referred Contact: ${help.contact}`}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: "flex" }}>
+                      <AddIcCallIcon sx={{ marginX: 1 }} />
+                      <Typography
+                        variant="subtitle"
+                        align="left"
+                        justify="center"
+                      >
+                        {`Doner's Contact: ${help.doner.phone}`}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: "flex" }}>
+                      <LocationOnIcon sx={{ marginX: 1 }} />
+                      <Typography
+                        variant="subtitle"
+                        align="left"
+                        justify="center"
+                      >
+                        {`Location: ${help.location}`}
+                      </Typography>
+                    </Box>
                   </Box>
                 </Grid>
               </Paper>
@@ -235,7 +277,7 @@ const HelpDetail = () => {
                   align="left"
                   sx={{ textAlign: "justify", textJustify: "inter-word" }}
                 >
-                  Top Categories
+                  Categories
                 </Typography>
                 <Divider />
                 <TopCategories />

@@ -24,7 +24,7 @@ const UserMenu = [
 
 const NavMenu = [
   { name: "Helps", to: "/helps" },
-  { name: "Categories", to: "/categories" },
+  // { name: "Categories", to: "/categories" },
 ];
 
 const Navbar = ({ isAuthenticated }) => {
@@ -63,6 +63,16 @@ const Navbar = ({ isAuthenticated }) => {
             textDecoration: "none",
           }}
         >
+          <Box
+            component="img"
+            sx={{
+              maxHeight: { xs: 35, md: 35 },
+              maxWidth: { xs: 35, md: 35 },
+              marginX: 1,
+            }}
+            alt="Logo"
+            src="/logo512.png"
+          />
           Sharing is Caring
         </Typography>
         <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -119,9 +129,20 @@ const Navbar = ({ isAuthenticated }) => {
             textDecoration: "none",
             flexGrow: 1,
             display: { xs: "flex", md: "none" },
+            justifyContent: "center",
           }}
         >
-          Sharing is Caring
+          <Box
+            component="img"
+            sx={{
+              maxHeight: { xs: 35, md: 35 },
+              maxWidth: { xs: 35, md: 35 },
+              marginX: 1,
+            }}
+            alt="Logo"
+            src="/logo512.png"
+          />
+          {/* Sharing is Caring */}
         </Typography>
         <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
           {NavMenu.map((menu) => {

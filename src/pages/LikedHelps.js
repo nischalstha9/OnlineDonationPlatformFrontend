@@ -89,7 +89,7 @@ const HelpsList = () => {
                 <Container component="main" sx={{ padding: "0", marginY: 10 }}>
                   <LinearProgress />
                 </Container>
-              ) : (
+              ) : donations.length > 0 ? (
                 donations.map((donation) => {
                   return (
                     <Grid item xs={12} sm={4} md={4} lg={3} key={donation.id}>
@@ -97,6 +97,12 @@ const HelpsList = () => {
                     </Grid>
                   );
                 })
+              ) : (
+                <Grid item xs={12} xl={12}>
+                  <Typography variant="subtitle1" align="center">
+                    -- No items for selected filter ☹️--
+                  </Typography>
+                </Grid>
               )}
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} sx={{ marginY: 1 }}>

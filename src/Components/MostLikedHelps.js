@@ -45,7 +45,7 @@ const MostLikedHelps = () => {
       >
         {mostLikedHelps &&
           mostLikedHelps.length > 0 &&
-          mostLikedHelps.map((donation) => {
+          mostLikedHelps.map((donation, index) => {
             return (
               <>
                 <ListItem
@@ -81,7 +81,9 @@ const MostLikedHelps = () => {
                     }
                   />
                 </ListItem>
-                <Divider variant="inset" component="li" />
+                {index !== mostLikedHelps.length - 1 && (
+                  <Divider variant="inset" component="li" />
+                )}
               </>
             );
           })}

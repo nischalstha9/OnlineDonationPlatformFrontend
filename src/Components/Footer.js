@@ -100,6 +100,31 @@ export default function Footer() {
                 <GitHubIcon sx={{ fontSize: "48px", color: "black" }} />
               </Link>
             </Typography>
+            <Typography
+              variant="h6"
+              noWrap
+              component={Link}
+              to="/"
+              sx={{
+                mr: 2,
+                color: "white",
+                textDecoration: "none",
+                flexGrow: 1,
+                display: { xs: "flex", md: "none" },
+              }}
+            >
+              <Box
+                component="img"
+                sx={{
+                  maxHeight: { xs: 35, md: 35 },
+                  maxWidth: { xs: 35, md: 35 },
+                  marginX: 1,
+                }}
+                alt="Logo"
+                src="/logo512.png"
+              />
+              Sharing is Caring
+            </Typography>
           </Grid>
         </Grid>
         <Copyright />

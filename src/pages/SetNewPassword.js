@@ -53,9 +53,9 @@ export default function Login() {
           history.push("/login");
         })
         .catch((err) => {
-          toast.error(Object.values(err.response.data)[0][0], {
-            position: toast.POSITION.BOTTOM_CENTER,
-          });
+          toast.error(
+            "A problem occoured reseting your password! Try contacting support!"
+          );
         });
       setSubmitting(false);
       passwordSetForm.resetForm();
