@@ -52,7 +52,7 @@ const HelpsList = () => {
   return (
     <>
       <Helmet>
-        <title>Favorite Helps</title>
+        <title>Favorite Helps | Sharing is Caring</title>
       </Helmet>
       <Container
         sx={{ marginBottom: "25vh", marginTop: "4vh", minWidth: "90vw" }}

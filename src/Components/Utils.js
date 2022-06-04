@@ -2,6 +2,14 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 export const parseDate = (isoTime) => {
+  return new Date(Date.parse(isoTime))
+    .toDateString()
+    .split(" ")
+    .slice(1)
+    .join(" ");
+};
+
+export const parseDateWithDay = (isoTime) => {
   return new Date(Date.parse(isoTime)).toDateString();
 };
 

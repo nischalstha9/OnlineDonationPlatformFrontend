@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import AxiosInstance from "../AxiosInstance";
 import parse from "html-react-parser";
-import { parseDate } from "../Components/Utils";
+import { parseDateWithDay } from "../Components/Utils";
 import DonationLikeShareAction from "../Components/DonationLikeShareAction";
 import { Helmet } from "react-helmet";
 import ProfileCard from "../Components/ProfileCard";
@@ -27,6 +27,66 @@ import AddIcCallIcon from "@mui/icons-material/AddIcCall";
 import CategoryIcon from "@mui/icons-material/Category";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
+
+const HelperInfo = ({ help }) => {
+  return (
+    help && (
+      <Grid item xs={12} sm={12} md={12}>
+        <Typography variant="h6" align="right">
+          Helper Information
+          <Divider />
+          <ProfileCard user={help.doner} />
+          <Button
+            component={Link}
+            to={`/user-helps/${help.doner.id}`}
+            disableRipple
+          >
+            More from {help.doner.first_name}
+          </Button>
+          <Divider />
+        </Typography>
+        <Box sx={{ marginY: 3 }}>
+          <Box sx={{ display: "flex" }}>
+            <CategoryIcon sx={{ marginX: 1 }} />
+            <Typography variant="subtitle" align="left" justify="center">
+              {`Category: ${help.category_name}`}
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex" }}>
+            <CalendarMonthOutlinedIcon sx={{ marginX: 1 }} />
+            <Typography variant="subtitle" align="left" justify="center">
+              {`Created: ${parseDateWithDay(help.created_at)}`}
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex" }}>
+            <CalendarMonthIcon sx={{ marginX: 1 }} />
+            <Typography variant="subtitle" align="left" justify="center">
+              {`Last Updated: ${parseDateWithDay(help.updated_at)}`}
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex" }}>
+            <CallIcon sx={{ marginX: 1 }} />
+            <Typography variant="subtitle" align="left" justify="center">
+              {`Referred Contact: ${help.contact}`}
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex" }}>
+            <AddIcCallIcon sx={{ marginX: 1 }} />
+            <Typography variant="subtitle" align="left" justify="center">
+              {`Doner's Contact: ${help.doner.phone}`}
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex" }}>
+            <LocationOnIcon sx={{ marginX: 1 }} />
+            <Typography variant="subtitle" align="left" justify="center">
+              {`Location: ${help.location}`}
+            </Typography>
+          </Box>
+        </Box>
+      </Grid>
+    )
+  );
+};
 
 const HelpDetail = () => {
   const user = useSelector((state) => state.user);
@@ -135,12 +195,32 @@ const HelpDetail = () => {
                       sx={{
                         textAlign: "justify",
                         textJustify: "inter-word",
+                        // minHeight: "20vh",
                         maxHeight: "80vh",
                         overflowY: "scroll",
+                        paddingX: 1,
                       }}
                     >
                       {help.description && parse(help.description)}
                     </Typography>
+                  </Paper>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={12}
+                  sx={{ display: { sm: "block", md: "none" } }}
+                >
+                  <Paper
+                    sx={{
+                      marginY: 1,
+                      padding: 2,
+                      borderRadius: 3,
+                    }}
+                  >
+                    <HelperInfo help={help} />
                   </Paper>
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12} id="related-helps">
@@ -195,83 +275,14 @@ const HelpDetail = () => {
               </Grid>
             </Grid>
             <Grid item sm={12} md={4} grid="meta-container">
-              <Paper sx={{ padding: 2, borderRadius: 3 }}>
-                <Grid item xs={12} sm={12} md={12}>
-                  <Typography variant="h6" align="right">
-                    Helper Information
-                    <Divider />
-                    <ProfileCard user={help.doner} />
-                    <Button
-                      component={Link}
-                      to={`/user-helps/${help.doner.id}`}
-                    >
-                      More from {help.doner.first_name}
-                    </Button>
-                    <Divider />
-                  </Typography>
-                  <Box sx={{ marginY: 3 }}>
-                    <Box sx={{ display: "flex" }}>
-                      <CategoryIcon sx={{ marginX: 1 }} />
-                      <Typography
-                        variant="subtitle"
-                        align="left"
-                        justify="center"
-                      >
-                        {`Category: ${help.category_name}`}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: "flex" }}>
-                      <CalendarMonthOutlinedIcon sx={{ marginX: 1 }} />
-                      <Typography
-                        variant="subtitle"
-                        align="left"
-                        justify="center"
-                      >
-                        {`Created: ${parseDate(help.created_at)}`}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: "flex" }}>
-                      <CalendarMonthIcon sx={{ marginX: 1 }} />
-                      <Typography
-                        variant="subtitle"
-                        align="left"
-                        justify="center"
-                      >
-                        {`Last Updated: ${parseDate(help.updated_at)}`}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: "flex" }}>
-                      <CallIcon sx={{ marginX: 1 }} />
-                      <Typography
-                        variant="subtitle"
-                        align="left"
-                        justify="center"
-                      >
-                        {`Referred Contact: ${help.contact}`}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: "flex" }}>
-                      <AddIcCallIcon sx={{ marginX: 1 }} />
-                      <Typography
-                        variant="subtitle"
-                        align="left"
-                        justify="center"
-                      >
-                        {`Doner's Contact: ${help.doner.phone}`}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: "flex" }}>
-                      <LocationOnIcon sx={{ marginX: 1 }} />
-                      <Typography
-                        variant="subtitle"
-                        align="left"
-                        justify="center"
-                      >
-                        {`Location: ${help.location}`}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Grid>
+              <Paper
+                sx={{
+                  padding: 2,
+                  borderRadius: 3,
+                  display: { xs: "none", md: "block" },
+                }}
+              >
+                <HelperInfo help={help} />
               </Paper>
               <Divider />
               <Grid item xs={12} md={12} lg={12} sx={{ marginY: 3 }}>

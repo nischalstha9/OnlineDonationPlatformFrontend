@@ -22,6 +22,7 @@ const ProfileCard = ({ user }) => {
         }
         title={`${user.first_name} ${user.last_name}` || user.email}
         subheader={user.email}
+        sx={{ overflow: "hidden" }}
       />
     </>
   );

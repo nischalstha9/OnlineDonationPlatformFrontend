@@ -1,11 +1,11 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
 import { Button, CardActions } from "@mui/material";
 import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
 import { green } from "@mui/material/colors";
-import { Grid } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import { parseDate } from "./Utils";
 import DonationLikeShareAction from "./DonationLikeShareAction";
@@ -31,13 +31,31 @@ export default function HelpCard({ help, newState = false }) {
         avatar={
           <Avatar
             sx={{ bgcolor: green[500] }}
-            aria-label={help.doner.first_name || help.doner.email}
+            alt={help.doner.first_name || help.doner.email}
             src={host + help.doner.avatar_path}
           ></Avatar>
         }
-        title={help.title}
+        title={
+          <>
+            <Typography
+              variant="title"
+              sx={{ textAlign: "justify", textJustify: "interWord" }}
+            >
+              {help.title}
+            </Typography>
+            <br />
+          </>
+        }
         subheader={
-          newState ? new Date().toDateString() : parseDate(help.created_at)
+          <Typography
+            variant="caption"
+            sx={{
+              textAlign: "justify",
+              textJustify: "interWord",
+            }}
+          >
+            {newState ? new Date().toDateString() : parseDate(help.created_at)}
+          </Typography>
         }
       />
       <CardActions disableSpacing>
@@ -56,7 +74,7 @@ export default function HelpCard({ help, newState = false }) {
               color="secondary"
               component={Link}
               to={`/help-detail/${help.slug}`}
-              variant="outlined"
+              // variant="outlined"
             >
               View
             </Button>

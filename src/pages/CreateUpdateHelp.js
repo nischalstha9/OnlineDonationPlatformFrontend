@@ -276,9 +276,9 @@ function CreateUpdateHelp() {
                         editor.getData()
                       );
                     }}
-                    onReady={(editor) => {
-                      editor.ui.view.editable.element.style.minHeight = "250px";
-                    }}
+                    // onReady={(editor) => {
+                    //   editor.ui.view.editable.element.style.minHeight = "250px";
+                    // }}
                   />
                   <FormHelperText id="my-helper-text" sx={{ color: "#d32f2f" }}>
                     {createDonationForm.touched.description &&

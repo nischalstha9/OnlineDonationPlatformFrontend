@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileCard from "./ProfileCard";
 import { host } from "../AxiosInstance";
+import { green } from "@mui/material/colors";
 
 const UserMenu = [
   { name: "Create New Help", to: "/create-help" },
@@ -49,7 +50,15 @@ const Navbar = ({ isAuthenticated }) => {
   };
 
   return (
-    <AppBar position="sticky" sx={{ color: "#fff", paddingX: "10px" }}>
+    <AppBar
+      position="sticky"
+      sx={{
+        color: "#fff",
+        paddingX: "10px",
+        display: "flex",
+        // alignItems: "center",
+      }}
+    >
       <Toolbar disableGutters>
         <Typography
           variant="h6"
@@ -75,7 +84,7 @@ const Navbar = ({ isAuthenticated }) => {
           />
           Sharing is Caring
         </Typography>
-        <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+        <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
           <IconButton
             size="large"
             aria-label="account of current user"
@@ -160,6 +169,9 @@ const Navbar = ({ isAuthenticated }) => {
                 <Avatar
                   alt={user.first_name || user.email}
                   src={host + user.avatar_path}
+                  sx={{
+                    bgcolor: green[500],
+                  }}
                 />
               </IconButton>
             </Tooltip>
@@ -201,8 +213,16 @@ const Navbar = ({ isAuthenticated }) => {
         ) : (
           <Box sx={{ flexGrow: 0 }}>
             <Button
-              sx={{ ml: 4, color: "white" }}
-              color="secondary"
+              sx={{
+                // ml: 4,
+                backgroundColor: "#fff",
+                color: "primary.main",
+                ":hover": {
+                  backgroundColor: "#fff",
+                  color: "primary.main",
+                },
+              }}
+              // color="secondary"
               component={Link}
               to="/login"
               variant="outlined"

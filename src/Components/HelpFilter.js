@@ -22,7 +22,7 @@ export default function HelpFilter({
 }) {
   const [sQuery, setSQuery] = React.useState("");
   function filter_by_search(e) {
-    if (e.keyCode === 13) {
+    if (e.keyCode === 13 || e.target.value === "") {
       setSearchQuery(e.target.value);
     }
   }

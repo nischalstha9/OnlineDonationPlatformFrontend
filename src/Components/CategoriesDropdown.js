@@ -23,27 +23,28 @@ export default function CategoriesDropdown({
   };
 
   return (
-    <Box>
-      <FormControl fullWidth>
-        <InputLabel id="categoryLabel">Category</InputLabel>
-        <Select
-          labelId="categoryLabel"
-          id="category"
-          value={category}
-          label="Category"
-          onChange={handleChange}
-        >
-          <MenuItem value={""}>Select Category</MenuItem>;
-          {categories &&
-            categories.map((category) => {
+    categories && (
+      <Box>
+        <FormControl fullWidth>
+          <InputLabel id="categoryLabel">Category</InputLabel>
+          <Select
+            labelId="categoryLabel"
+            id="category"
+            value={category}
+            label="Category"
+            onChange={handleChange}
+          >
+            <MenuItem value={""}>Select Category</MenuItem>;
+            {categories.map((category) => {
               return (
                 <MenuItem value={category.id} key={category.id}>
                   {category.name}
                 </MenuItem>
               );
             })}
-        </Select>
-      </FormControl>
-    </Box>
+          </Select>
+        </FormControl>
+      </Box>
+    )
   );
 }
