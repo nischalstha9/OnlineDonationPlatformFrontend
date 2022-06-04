@@ -19,7 +19,7 @@ import { green } from "@mui/material/colors";
 const UserMenu = [
   { name: "Create New Help", to: "/create-help" },
   { name: "My Helps", to: "/my-helps" },
-  { name: "Favorite Helps", to: "/my-liked-helps" },
+  { name: "Favorite Helps", to: "/my-favorite-helps" },
   { name: "Logout", to: "/logout" },
 ];
 

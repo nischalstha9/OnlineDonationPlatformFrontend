@@ -10,6 +10,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import PrivateRoute from "./PrivateRoute";
 import Logout from "../pages/Logout";
 import HelpList from "../pages/HelpList";
+import CategoricalHelpListPage from "../pages/CategoricalHelpListPage";
 import HelpDetail from "../pages/HelpDetail";
 import MyHelps from "../pages/MyHelps";
 import UsersHelps from "../pages/UsersHelps";
@@ -41,6 +42,11 @@ const Routes = ({ isAuthenticated }) => {
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/helps" component={HelpList} />
+          <Route
+            exact
+            path="/categories/:category_id"
+            component={CategoricalHelpListPage}
+          />
           <Route exact path="/activate" component={ActivateAccount} />
           <Route exact path="/help-detail/:help_slug" component={HelpDetail} />
           <Route exact path="/forget-password" component={ForgetPassword} />
@@ -62,7 +68,11 @@ const Routes = ({ isAuthenticated }) => {
             path="/edit-help/:help_slug"
             component={CreateUpdateHelp}
           />
-          <PrivateRoute exact path="/my-liked-helps" component={LikedHelps} />
+          <PrivateRoute
+            exact
+            path="/my-favorite-helps"
+            component={LikedHelps}
+          />
           <Route exact path="/logout" component={Logout} />
           <PrivateRoute exact path="/profile" component={Profile} />
           <Route component={NOT_FOUND} />

@@ -50,7 +50,32 @@ export default function Footer() {
       <Container maxWidth="lg" display="flex">
         <Grid container spacing={4}>
           <Grid item xs={12} md={6} lg={4}>
-            <Typography variant="h6">About Us</Typography>
+            <Typography
+              sx={{
+                mr: 2,
+                color: "black",
+                textDecoration: "none",
+                flexGrow: 1,
+                textAlign: "left",
+                alignItems: "center",
+                display: "flex",
+                padding: 1,
+                paddingLeft: 0,
+                marginLeft: 0,
+              }}
+            >
+              <Box
+                component="img"
+                sx={{
+                  maxHeight: { xs: 35, md: 35 },
+                  maxWidth: { xs: 35, md: 35 },
+                  marginRight: 1,
+                }}
+                alt="Logo"
+                src="/logo512.png"
+              />
+              <Typography variant="h6">Sharing is Caring</Typography>
+            </Typography>
             <Typography
               variant="body2"
               sx={{ textAlign: "justify", textJustify: "inter-word" }}
@@ -99,31 +124,6 @@ export default function Footer() {
               >
                 <GitHubIcon sx={{ fontSize: "48px", color: "black" }} />
               </Link>
-            </Typography>
-            <Typography
-              variant="h6"
-              noWrap
-              component={Link}
-              to="/"
-              sx={{
-                mr: 2,
-                color: "white",
-                textDecoration: "none",
-                flexGrow: 1,
-                display: { xs: "flex", md: "none" },
-              }}
-            >
-              <Box
-                component="img"
-                sx={{
-                  maxHeight: { xs: 35, md: 35 },
-                  maxWidth: { xs: 35, md: 35 },
-                  marginX: 1,
-                }}
-                alt="Logo"
-                src="/logo512.png"
-              />
-              Sharing is Caring
             </Typography>
           </Grid>
         </Grid>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { List, ListItem, ListItemText } from "@mui/material";
+import { Link } from "react-router-dom";
 const Categories = () => {
   const categories = useSelector((state) => state.categories);
   return (
@@ -12,8 +13,8 @@ const Categories = () => {
             <ListItem
               key={category.id}
               button
-              // to="/categories"
-              // component={Link}
+              to={`/categories/${category.id}`}
+              component={Link}
             >
               <ListItemText
                 primary={category.name}

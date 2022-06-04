@@ -71,7 +71,8 @@ const HelpsList = () => {
     <>
       <Helmet>
         <title>
-          Helps by {user !== null ? user.first_name + " " + user.last_name : ""}
+          Helps by {user !== null ? user.first_name + " " + user.last_name : ""}{" "}
+          | Sharing is Caring
         </title>
       </Helmet>
       <Container

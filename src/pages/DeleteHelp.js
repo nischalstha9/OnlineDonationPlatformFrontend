@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
-import Grid from "@mui/material/Grid";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -48,9 +45,9 @@ export default function Login() {
     AxiosInstance.get(url)
       .then((resp) => {
         let _help = resp.data;
-        setTitle(`Delete ${_help.title}`);
+        setTitle(`Delete Help: ${_help.title}`);
         setHelp(_help);
-        setIsOwner(_help.doner.id == user.id);
+        setIsOwner(_help.doner.id === user.id);
       })
       .catch((err) => console.log(err.response))
       .finally(() => {
@@ -71,7 +68,7 @@ export default function Login() {
   ) : isOwner ? (
     <Container component="main" maxWidth="sm" sx={{ marginTop: "15vh" }}>
       <Helmet>
-        <title>Sharing is Caring | Login</title>
+        <title>{title} | Sharing is Caring</title>
       </Helmet>
       <Paper
         sx={{
