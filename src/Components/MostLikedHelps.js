@@ -55,8 +55,8 @@ const MostLikedHelps = () => {
                 >
                   <ListItemAvatar>
                     <Avatar
-                      alt={`${donation.doner.first_name} ${donation.doner.last_name}`}
-                      src={host + donation.doner.avatar_path}
+                      alt={`${donation.user__first_name} ${donation.user__last_name}`}
+                      src={host + "/media/" + donation.user__avatar}
                     />
                   </ListItemAvatar>
                   <ListItemText
@@ -74,9 +74,9 @@ const MostLikedHelps = () => {
                           variant="body2"
                           color="text.primary"
                         >
-                          {donation.likes.length} Likes |{" "}
+                          {donation.num_likes} Likes{" "}
                         </Typography>
-                        - {parseDate(donation.updated_at)}
+                        | {parseDate(donation.updated_at)}
                       </React.Fragment>
                     }
                   />
